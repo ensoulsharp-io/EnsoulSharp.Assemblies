@@ -657,7 +657,7 @@ namespace Evade
                 return;
             }
 
-            if (args.Order == GameObjectOrder.MoveTo || args.Order == GameObjectOrder.AttackUnit)
+            if (args.Order == GameObjectOrder.MoveTo)
             {
                 EvadeToPoint.X = args.TargetPosition.X;
                 EvadeToPoint.Y = args.TargetPosition.Y;
