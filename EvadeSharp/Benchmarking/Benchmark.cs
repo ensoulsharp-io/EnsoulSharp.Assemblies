@@ -45,12 +45,12 @@ namespace Evade.Benchmarking
         {
             if (args.Msg == (uint)WindowsMessages.LBUTTONDOWN)
             {
-                startPoint = Game.CursorPosCenter.ToVector2();
+                startPoint = Game.CursorPosRaw.ToVector2();
             }
 
             if (args.Msg == (uint)WindowsMessages.LBUTTONUP)
             {
-                endPoint = Game.CursorPosCenter.ToVector2();
+                endPoint = Game.CursorPosRaw.ToVector2();
             }
 
             if (args.Msg == (uint)WindowsMessages.KEYUP && args.WParam == 'L') // line missile skillshot

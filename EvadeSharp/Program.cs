@@ -581,7 +581,7 @@ namespace Evade
                 if (!safeResult.IsSafe)
                 {
                     // Search for an evade point.
-                    TryToEvade(safeResult.SkillshotList, EvadeToPoint.IsValid() ? EvadeToPoint : Game.CursorPosCenter.ToVector2());
+                    TryToEvade(safeResult.SkillshotList, EvadeToPoint.IsValid() ? EvadeToPoint : Game.CursorPosRaw.ToVector2());
                 }
             }
 
@@ -1340,7 +1340,7 @@ namespace Evade
                     Drawing.DrawLine(SA.X, SA.Y, SB.X, SB.Y, 1, Color.White);
                 }
 
-                var evadePath = Pathfinding.Pathfinding.PathFind(PlayerPosition, Game.CursorPosCenter.ToVector2());
+                var evadePath = Pathfinding.Pathfinding.PathFind(PlayerPosition, Game.CursorPosRaw.ToVector2());
 
                 for (var i = 0; i < evadePath.Count - 1; i++)
                 {
