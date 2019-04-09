@@ -115,7 +115,7 @@ namespace Evade
                 spell = new MoveBuffData("Kayle W", SpellSlot.W, 100, 3,
                     () =>
                         ObjectManager.Player.MoveSpeed *
-                        (1 + 0.26f + 0.06f * Math.Max(0, ObjectManager.Player.Spellbook.GetSpell(SpellSlot.W).Level - 1)
+                        (1 + 0.24f + 0.04f * Math.Max(0, ObjectManager.Player.Spellbook.GetSpell(SpellSlot.W).Level - 1)
                         + 0.08f * ObjectManager.Player.TotalMagicalDamage / 100));
                 Spells.Add(spell);
             }
@@ -156,7 +156,7 @@ namespace Evade
                 spell = new MoveBuffData("Rumble W Accel", SpellSlot.W, 100, 3,
                     () =>
                         ObjectManager.Player.MoveSpeed *
-                        (1 + 0.1f + 0.05f * Math.Max(0, ObjectManager.Player.Spellbook.GetSpell(SpellSlot.W).Level - 1)) *
+                        (1 + 0.2f + 0.05f * Math.Max(0, ObjectManager.Player.Spellbook.GetSpell(SpellSlot.W).Level - 1)) *
                         (ObjectManager.Player.HasBuff("rumbledangerzonebuff") ? 1.5f : 1));
                 Spells.Add(spell);
             }
