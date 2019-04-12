@@ -192,7 +192,10 @@
                         if (args.Target != null && args.Target.Type == GameObjectType.AIMinionClient)
                         {
                             var mob = args.Target as AIMinionClient;
-                            if (mob != null && mob.InAutoAttackRange() && (mob.IsLargeJungle() || mob.IsLegendJungle()) && mob.Health > Player.Instance.GetAutoAttackDamage(mob) * 4)
+                            if (mob != null && mob.InAutoAttackRange() &&
+                                (mob.GetJungleType() == JungleType.Large ||
+                                 mob.GetJungleType() == JungleType.Legendary) &&
+                                mob.Health > Player.Instance.GetAutoAttackDamage(mob) * 4)
                             {
                                 Q.Cast();
                             }

@@ -336,7 +336,7 @@ namespace EnsoulSharp.Kalista
 
             if (MenuWrapper.JungleClear.Q.Value && Q.IsReady())
             {
-                foreach (var mob in GameObjects.Jungle.Where(x => x.IsValidTarget(Q.Range) && (x.IsLargeJungle() || x.IsLegendJungle())))
+                foreach (var mob in GameObjects.Jungle.Where(x => x.IsValidTarget(Q.Range) && (x.GetJungleType() == JungleType.Large || x.GetJungleType() == JungleType.Legendary)))
                 {
                     if (mob.IsValidTarget(Q.Range))
                     {
