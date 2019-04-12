@@ -225,11 +225,11 @@ namespace EnsoulSharp.Kalista
                     GameObjects.EnemyHeroes.Any(x => x.IsValidTarget(1000)))
                 {
                     var AttackUnit =
-                        GameObjects.EnemyMinions.Where(x => x.IsInAutoAttackRange())
+                        GameObjects.EnemyMinions.Where(x => x.InAutoAttackRange())
                             .OrderBy(x => x.Distance(Game.CursorPosRaw))
                             .FirstOrDefault();
 
-                    if (AttackUnit != null && !AttackUnit.IsDead && AttackUnit.IsInAutoAttackRange())
+                    if (AttackUnit != null && !AttackUnit.IsDead && AttackUnit.InAutoAttackRange())
                     {
                         Variables.Orbwalker.ForceTarget = AttackUnit;
                     }
