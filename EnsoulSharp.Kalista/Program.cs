@@ -6,9 +6,9 @@
     {
         private static void Main(string[] args)
         {
-            Events.OnLoad += (sender, e) =>
+            GameEvent.OnGameLoad += delegate 
             {
-                if (Player.Instance.CharacterName != "Kalista")
+                if (ObjectManager.Player.CharacterName != "Kalista")
                     return;
 
                 Kalista.OnLoad();

@@ -1,35 +1,27 @@
-﻿using System.Drawing.Printing;
-
-namespace EnsoulSharp.Kalista
+﻿namespace EnsoulSharp.Kalista
 {
-    using EnsoulSharp.SDK;
-    using EnsoulSharp.SDK.Core.UI.IMenu;
-    using EnsoulSharp.SDK.Core.Utils;
-    using EnsoulSharp.SDK.Core.Wrappers.Damages;
     using System;
     using System.Collections.Generic;
     using System.Linq;
+
+    using EnsoulSharp.SDK;
+    using EnsoulSharp.SDK.MenuUI;
+    using EnsoulSharp.SDK.Prediction;
+    using EnsoulSharp.SDK.Utility;
 
     using Color = System.Drawing.Color;
 
     internal class Kalista
     {
         private static Menu MyMenu;
-        private static Spell Q, E, R;
-        private static AIHeroClient SweetHeart = null;
-
-        private static Dictionary<float, float> _incomingDamage = new Dictionary<float, float>();
-        private static Dictionary<float, float> _instantDamage = new Dictionary<float, float>();
-        public static float IncomingDamage
-        {
-            get { return _incomingDamage.Sum(e => e.Value) + _instantDamage.Sum(e => e.Value); }
-        }
+        private static Spell Q, E;
 
         public static void OnLoad()
         {
-            Q = new Spell(SpellSlot.Q, 1150f).SetSkillshot(0.35f, 40, 2400, true, SkillshotType.SkillshotLine);
+            Q = new Spell(SpellSlot.Q, 1150f);
             E = new Spell(SpellSlot.E, 1000f);
-            R = new Spell(SpellSlot.R, 1500f);
+
+            Q.SetSkillshot(0.35f, 40, 2400, true, SkillshotType.Line);
 
             MyMenu = new Menu("ensoulsharp.kalista", "EnsoulSharp.Kalista", true);
 
@@ -66,11 +58,6 @@ namespace EnsoulSharp.Kalista
             killable.Add(MenuWrapper.KillAble.E);
             MyMenu.Add(killable);
 
-            var misc = new Menu("misc", "Misc Settings");
-            misc.Add(MenuWrapper.Misc.R);
-            misc.Add(MenuWrapper.Misc.HP);
-            MyMenu.Add(misc);
-
             var draw = new Menu("draw", "Draw Settings");
             draw.Add(MenuWrapper.Draw.Q);
             draw.Add(MenuWrapper.Draw.E);
@@ -81,7 +68,6 @@ namespace EnsoulSharp.Kalista
             MyMenu.Attach();
 
             Game.OnUpdate += OnTick;
-            AIBaseClient.OnDoCast += OnDoCast;
             Drawing.OnDraw += OnDraw;
             Drawing.OnEndScene += OnEndScene;
         }
@@ -93,51 +79,18 @@ namespace EnsoulSharp.Kalista
                 return 0;
             }
 
-            return E.GetDamage(target) + E.GetDamage(target, Damage.DamageStage.Buff);
-        }
-
-        // Credit Hellsing
-        private static void SaveSweetHeart()
-        {
-            if (SweetHeart == null)
-            {
-                SweetHeart = GameObjects.AllyHeroes.Find(h => h.Buffs.Any(b => b.Caster.IsMe && b.Name.Contains("kalistacoopstrikeally")));
-            }
-            else if (MenuWrapper.Misc.R.Value && R.IsReady())
-            {
-                if (SweetHeart.HealthPercent < MenuWrapper.Misc.HP.Value && SweetHeart.CountEnemyHeroesInRange(500) > 0 ||
-                    IncomingDamage > SweetHeart.Health)
-                {
-                    R.Cast();
-                }
-            }
-
-            foreach (var entry in _incomingDamage)
-            {
-                if (entry.Key < Game.Time)
-                {
-                    _incomingDamage.Remove(entry.Key);
-                }
-            }
-
-            foreach (var entry in _instantDamage)
-            {
-                if (entry.Key < Game.Time)
-                {
-                    _instantDamage.Remove(entry.Key);
-                }
-            }
+            return E.GetDamage(target) + E.GetDamage(target, DamageStage.Buff);
         }
 
         private static void KillAble()
         {
-            if (MenuWrapper.KillAble.Q.Value && Q.IsReady())
+            if (MenuWrapper.KillAble.Q.Enabled && Q.IsReady())
             {
                 foreach (var target in GameObjects.EnemyHeroes.Where(x => x.IsValidTarget(Q.Range) && !x.IsInvulnerable))
                 {
                     if (target.IsValidTarget(Q.Range) && target.Health < Q.GetDamage(target))
                     {
-                        var qPred = Q.GetPrediction(target, false, 0, CollisionableObjects.Minions | CollisionableObjects.YasuoWall);
+                        var qPred = Q.GetPrediction(target, false, 0, CollisionObjects.Minions | CollisionObjects.YasuoWall);
                         if (qPred.Hitchance >= HitChance.High)
                         {
                             Q.Cast(qPred.UnitPosition);
@@ -146,7 +99,7 @@ namespace EnsoulSharp.Kalista
                 }
             }
 
-            if (MenuWrapper.KillAble.E.Value && E.IsReady())
+            if (MenuWrapper.KillAble.E.Enabled && E.IsReady())
             {
                 if (GameObjects.EnemyHeroes.Any(x =>
                     x.IsValidTarget(E.Range) && x.HasBuff("kalistaexpungemarker") && x.Health < GetEDamage(x) && !x.IsInvulnerable))
@@ -158,19 +111,19 @@ namespace EnsoulSharp.Kalista
 
         private static void Combat()
         {
-            var target = Variables.TargetSelector.GetTarget(Q.Range);
+            var target = TargetSelector.GetTarget(Q.Range);
             if (target == null || !target.IsValidTarget(Q.Range))
             {
                 return;
             }
 
-            if (MenuWrapper.Combat.Q.Value && Q.IsReady())
+            if (MenuWrapper.Combat.Q.Enabled && Q.IsReady())
             {
-                if (MenuWrapper.Combat.DisableQ.Value)
+                if (MenuWrapper.Combat.DisableQ.Enabled)
                 {
                     if (Variables.Orbwalker.AttackSpeed < 1.98)
                     {
-                        var qPred = Q.GetPrediction(target, false, 0, CollisionableObjects.Minions | CollisionableObjects.YasuoWall);
+                        var qPred = Q.GetPrediction(target, false, 0, CollisionObjects.Minions | CollisionObjects.YasuoWall);
                         if (qPred.Hitchance >= HitChance.High)
                         {
                             Q.Cast(qPred.UnitPosition);
@@ -179,7 +132,7 @@ namespace EnsoulSharp.Kalista
                 }
                 else
                 {
-                    var qPred = Q.GetPrediction(target, false, 0, CollisionableObjects.Minions | CollisionableObjects.YasuoWall);
+                    var qPred = Q.GetPrediction(target, false, 0, CollisionObjects.Minions | CollisionObjects.YasuoWall);
                     if (qPred.Hitchance >= HitChance.High)
                     {
                         Q.Cast(qPred.UnitPosition);
@@ -187,11 +140,11 @@ namespace EnsoulSharp.Kalista
                 }
             }
 
-            if (MenuWrapper.Combat.E.Value && E.IsReady())
+            if (MenuWrapper.Combat.E.Enabled && E.IsReady())
             {
                 foreach (var t in GameObjects.EnemyHeroes.Where(x => x.IsValidTarget(E.Range) && x.HasBuff("kalistaexpungemarker")))
                 {
-                    if (MenuWrapper.Combat.DisableE.Value)
+                    if (MenuWrapper.Combat.DisableE.Enabled)
                     {
                         if (t.HasBuffOfType(BuffType.Asleep) || t.HasBuffOfType(BuffType.Charm) ||
                             t.HasBuffOfType(BuffType.Fear) || t.HasBuffOfType(BuffType.Knockup) ||
@@ -203,7 +156,7 @@ namespace EnsoulSharp.Kalista
 
                         if (GameObjects.EnemyMinions.Any(m => m.IsValidTarget(E.Range) && m.HasBuff("kalistaexpungemarker") && m.Health <= GetEDamage(m)))
                         {
-                            if (MenuWrapper.Combat.DisableE2.Value)
+                            if (MenuWrapper.Combat.DisableE2.Enabled)
                             {
                                 if (Variables.TickCount - E.LastCastAttemptT > 2500)
                                 {
@@ -219,7 +172,7 @@ namespace EnsoulSharp.Kalista
                 }
             }
 
-            if (MenuWrapper.Combat.OrbwalkerMinion.Value)
+            if (MenuWrapper.Combat.OrbwalkerMinion.Enabled)
             {
                 if (GameObjects.EnemyHeroes.All(x => !x.IsValidTarget(Player.Instance.AttackRange + Player.Instance.BoundingRadius + x.BoundingRadius)) &&
                     GameObjects.EnemyHeroes.Any(x => x.IsValidTarget(1000)))
@@ -248,20 +201,20 @@ namespace EnsoulSharp.Kalista
                 return;
             }
 
-            var target = Variables.TargetSelector.GetTarget(Q.Range);
+            var target = TargetSelector.GetTarget(Q.Range);
             if (target == null || !target.IsValidTarget(Q.Range))
             {
                 return;
             }
 
-            if (MenuWrapper.Harass.Q.Value && Q.IsReady())
+            if (MenuWrapper.Harass.Q.Enabled && Q.IsReady())
             {
-                var qPred = Q.GetPrediction(target, false, 0, CollisionableObjects.Minions | CollisionableObjects.YasuoWall);
+                var qPred = Q.GetPrediction(target, false, 0, CollisionObjects.Minions | CollisionObjects.YasuoWall);
                 if (qPred.Hitchance >= HitChance.High)
                 {
                     Q.Cast(qPred.UnitPosition);
                 }
-                else if (MenuWrapper.Harass.QMinion.Value)
+                else if (MenuWrapper.Harass.QMinion.Enabled)
                 {
                     var c = qPred.CollisionObjects;
                     if (c.Count > 0 && !c.All(x =>
@@ -276,11 +229,11 @@ namespace EnsoulSharp.Kalista
                 }
             }
 
-            if (MenuWrapper.Harass.E.Value && E.IsReady())
+            if (MenuWrapper.Harass.E.Enabled && E.IsReady())
             {
                 foreach (var t in GameObjects.EnemyHeroes.Where(x => x.IsValidTarget(E.Range) && x.HasBuff("kalistaexpungemarker")))
                 {
-                    if (MenuWrapper.Harass.DisableE.Value)
+                    if (MenuWrapper.Harass.DisableE.Enabled)
                     {
                         if (t.HasBuffOfType(BuffType.Asleep) || t.HasBuffOfType(BuffType.Charm) ||
                             t.HasBuffOfType(BuffType.Fear) || t.HasBuffOfType(BuffType.Knockup) ||
@@ -292,7 +245,7 @@ namespace EnsoulSharp.Kalista
 
                         if (GameObjects.EnemyMinions.Any(m => m.IsValidTarget(E.Range) && m.HasBuff("kalistaexpungemarker") && m.Health <= GetEDamage(m)))
                         {
-                            if (MenuWrapper.Harass.DisableE2.Value)
+                            if (MenuWrapper.Harass.DisableE2.Enabled)
                             {
                                 if (Variables.TickCount - E.LastCastAttemptT > 2500)
                                 {
@@ -316,11 +269,11 @@ namespace EnsoulSharp.Kalista
                 return;
             }
 
-            if (MenuWrapper.LaneClear.E.BValue && E.IsReady())
+            if (MenuWrapper.LaneClear.E.Enabled && E.IsReady())
             {
                 if (GameObjects.EnemyMinions.Count(x =>
                         x.IsValidTarget(E.Range) && x.HasBuff("kalistaexpungemarker") && x.Health < GetEDamage(x)) >=
-                    MenuWrapper.LaneClear.E.SValue)
+                    MenuWrapper.LaneClear.E.Value)
                 {
                     E.Cast();
                 }
@@ -334,7 +287,7 @@ namespace EnsoulSharp.Kalista
                 return;
             }
 
-            if (MenuWrapper.JungleClear.Q.Value && Q.IsReady())
+            if (MenuWrapper.JungleClear.Q.Enabled && Q.IsReady())
             {
                 foreach (var mob in GameObjects.Jungle.Where(x => x.IsValidTarget(Q.Range) && (x.GetJungleType() == JungleType.Large || x.GetJungleType() == JungleType.Legendary)))
                 {
@@ -349,7 +302,7 @@ namespace EnsoulSharp.Kalista
                 }
             }
 
-            if (MenuWrapper.JungleClear.E.Value && E.IsReady())
+            if (MenuWrapper.JungleClear.E.Enabled && E.IsReady())
             {
                 if (GameObjects.JungleLarge.Any(x => x.IsValidTarget(E.Range) && x.HasBuff("kalistaexpungemarker") && x.Health < GetEDamage(x) * 0.5))
                 {
@@ -375,50 +328,20 @@ namespace EnsoulSharp.Kalista
                 return;
             }
 
-            SaveSweetHeart();
             KillAble();
 
             switch (Variables.Orbwalker.ActiveMode)
             {
-                case OrbwalkingMode.Combo:
+                case OrbwalkerMode.Combo:
                     Combat();
                     break;
-                case OrbwalkingMode.Hybrid:
+                case OrbwalkerMode.Harass:
                     Harass();
                     break;
-                case OrbwalkingMode.LaneClear:
+                case OrbwalkerMode.LaneClear:
                     LaneClear();
                     JungleClear();
                     break;
-            }
-        }
-
-        private static void OnDoCast(AIBaseClient sender, AIBaseClientProcessSpellCastEventArgs args)
-        {
-            if (sender.IsEnemy)
-            {
-                if (SweetHeart != null && MenuWrapper.Misc.R.Value)
-                {
-                    if ((sender.Type != GameObjectType.AIHeroClient || AutoAttack.IsAutoAttack(args.SData.Name)) && args.Target != null && args.Target.NetworkId == SweetHeart.NetworkId)
-                    {
-                        _incomingDamage.Add(SweetHeart.Position.Distance(sender.Position) / args.SData.MissileSpeed + Game.Time, (float)sender.GetAutoAttackDamage(SweetHeart));
-                    }
-                    else if (sender.Type == GameObjectType.AIHeroClient)
-                    {
-                        var attacker = sender as AIHeroClient;
-                        var slot = attacker.GetSpellSlot(args.SData.Name);
-
-                        if (slot != SpellSlot.Unknown)
-                        {
-                            if (slot.HasFlag(SpellSlot.Q | SpellSlot.W | SpellSlot.E | SpellSlot.R) &&
-                                (args.Target != null && args.Target.NetworkId == SweetHeart.NetworkId ||
-                                args.End.Distance(SweetHeart.Position) < Math.Pow(args.SData.LineWidth, 2)))
-                            {
-                                _instantDamage.Add(Game.Time + 2, (float)attacker.GetSpellDamage(SweetHeart, slot));
-                            }
-                        }
-                    }
-                }
             }
         }
 
@@ -429,25 +352,25 @@ namespace EnsoulSharp.Kalista
                 return;
             }
 
-            if (MenuWrapper.Draw.Q.Value)
+            if (MenuWrapper.Draw.Q.Enabled)
             {
-                if (MenuWrapper.Draw.OnlyReady.Value && Q.IsReady())
+                if (MenuWrapper.Draw.OnlyReady.Enabled && Q.IsReady())
                 {
                     Render.Circle.DrawCircle(GameObjects.Player.Position, Q.Range, Color.FromArgb(48, 120, 252), 1);
                 }
-                else if (!MenuWrapper.Draw.OnlyReady.Value)
+                else if (!MenuWrapper.Draw.OnlyReady.Enabled)
                 {
                     Render.Circle.DrawCircle(GameObjects.Player.Position, Q.Range, Color.FromArgb(48, 120, 252), 1);
                 }
             }
 
-            if (MenuWrapper.Draw.E.Value)
+            if (MenuWrapper.Draw.E.Enabled)
             {
-                if (MenuWrapper.Draw.OnlyReady.Value && E.IsReady())
+                if (MenuWrapper.Draw.OnlyReady.Enabled && E.IsReady())
                 {
                     Render.Circle.DrawCircle(GameObjects.Player.Position, E.Range, Color.FromArgb(255, 65, 65), 1);
                 }
-                else if (!MenuWrapper.Draw.OnlyReady.Value)
+                else if (!MenuWrapper.Draw.OnlyReady.Enabled)
                 {
                     Render.Circle.DrawCircle(GameObjects.Player.Position, E.Range, Color.FromArgb(255, 65, 65), 1);
                 }
@@ -461,7 +384,7 @@ namespace EnsoulSharp.Kalista
                 return;
             }
 
-            if (MenuWrapper.Draw.DMG.Value && E.IsReady())
+            if (MenuWrapper.Draw.DMG.Enabled && E.IsReady())
             {
                 foreach (var target in GameObjects.EnemyHeroes.Where(x =>
                     x.IsValidTarget() && x.IsVisibleOnScreen && x.HasBuff("kalistaexpungemarker")))

@@ -1,12 +1,12 @@
 ﻿namespace EnsoulSharp.Ashe
 {
-    using EnsoulSharp.SDK;
-    using EnsoulSharp.SDK.Core.UI.IMenu;
-    using EnsoulSharp.SDK.Core.Utils;
-    using EnsoulSharp.SDK.Core.Wrappers.Damages;
-
     using System;
     using System.Linq;
+
+    using EnsoulSharp.SDK;
+    using EnsoulSharp.SDK.MenuUI;
+    using EnsoulSharp.SDK.Prediction;
+    using EnsoulSharp.SDK.Utility;
 
     using Color = System.Drawing.Color;
 
@@ -18,8 +18,11 @@
         public static void OnLoad()
         {
             Q = new Spell(SpellSlot.Q);
-            W = new Spell(SpellSlot.W, 1250f).SetSkillshot(0.25f, 20, 1500, true, SkillshotType.SkillshotLine);
-            R = new Spell(SpellSlot.R, 4500f).SetSkillshot(0.25f, 130, 1600, true, SkillshotType.SkillshotLine);
+            W = new Spell(SpellSlot.W, 1250f);
+            R = new Spell(SpellSlot.R, 4500f);
+
+            W.SetSkillshot(0.25f, 20, 1500, true, SkillshotType.Line);
+            R.SetSkillshot(0.25f, 130, 1600, true, SkillshotType.Line);
 
             MyMenu = new Menu("ensoulsharp.ashe", "EnsoulSharp.Ashe", true);
 
@@ -37,6 +40,7 @@
             var jungle = new Menu("jungle", "JungleClear Settings");
             jungle.Add(MenuWrapper.JungleClear.Q);
             jungle.Add(MenuWrapper.JungleClear.Mana);
+            MyMenu.Add(jungle);
 
             var killable = new Menu("killable", "KillSteal Settings");
             killable.Add(MenuWrapper.KillAble.W);
@@ -58,36 +62,36 @@
 
             Game.OnUpdate += OnTick;
             Variables.Orbwalker.OnAction += OnOrbwalkerAction;
-            Events.OnGapCloser += OnGapCloser;
-            Events.OnInterruptableTarget += OnInterruptableTarget;
+            Gapcloser.OnGapcloser += OnGapcloser;
+            Interrupter.OnInterrupterSpell += OnInterrupterSpell;
             Drawing.OnDraw += OnDraw;
         }
 
         private static void SemiR()
         {
-            var target = Variables.TargetSelector.GetTarget(R.Range, DamageType.Magical, false);
+            var target = TargetSelector.GetTarget(R.Range);
             if (target != null && target.IsValidTarget())
             {
-                var rPred = R.GetPrediction(target, false, 0, CollisionableObjects.Heroes);
+                var rPred = R.GetPrediction(target, false, 0, CollisionObjects.Heroes);
                 if (rPred.Hitchance >= HitChance.High)
                 {
-                    R.Cast(rPred.UnitPosition);
+                    R.Cast(rPred.CastPosition);
                 }
             }
         }
 
         private static void KillAble()
         {
-            if (MenuWrapper.KillAble.W.Value && W.IsReady())
+            if (MenuWrapper.KillAble.W.Enabled && W.IsReady())
             {
                 foreach (var target in GameObjects.EnemyHeroes.Where(x => x.IsValidTarget(W.Range - 100) && !x.IsInvulnerable))
                 {
                     if (target.IsValidTarget() && target.Health < W.GetDamage(target))
                     {
-                        var wPred = W.GetPrediction(target, false, 0, CollisionableObjects.Minions);
+                        var wPred = W.GetPrediction(target, false, 0, CollisionObjects.Minions);
                         if (wPred.Hitchance >= HitChance.High)
                         {
-                            W.Cast(wPred.UnitPosition);
+                            W.Cast(wPred.CastPosition);
                         }
                     }
                 }
@@ -96,16 +100,16 @@
 
         private static void Combat()
         {
-            if (MenuWrapper.Combat.W.Value && W.IsReady())
+            if (MenuWrapper.Combat.W.Enabled && W.IsReady())
             {
-                var target = Variables.TargetSelector.GetTarget(W.Range - 100);
+                var target = TargetSelector.GetTarget(W.Range - 100);
                 if (target != null && target.IsValidTarget(W.Range - 100) &&
                     target.DistanceToPlayer() > Player.Instance.GetRealAutoAttackRange(target))
                 {
-                    var wPred = W.GetPrediction(target, false, 0, CollisionableObjects.Minions);
+                    var wPred = W.GetPrediction(target, false, 0, CollisionObjects.Minions);
                     if (wPred.Hitchance >= HitChance.High)
                     {
-                        W.Cast(wPred.UnitPosition);
+                        W.Cast(wPred.CastPosition);
                     }
                 }
             }
@@ -113,15 +117,15 @@
 
         private static void Harass()
         {
-            if (MenuWrapper.Harass.W.Value && W.IsReady())
+            if (MenuWrapper.Harass.W.Enabled && W.IsReady())
             {
-                var target = Variables.TargetSelector.GetTarget(W.Range - 100);
+                var target = TargetSelector.GetTarget(W.Range - 100);
                 if (target != null && target.IsValidTarget(W.Range - 100))
                 {
-                    var wPred = W.GetPrediction(target, false, 0, CollisionableObjects.Minions);
+                    var wPred = W.GetPrediction(target, false, 0, CollisionObjects.Minions);
                     if (wPred.Hitchance >= HitChance.High)
                     {
-                        W.Cast(wPred.UnitPosition);
+                        W.Cast(wPred.CastPosition);
                     }
                 }
             }
@@ -143,39 +147,39 @@
 
             switch (Variables.Orbwalker.ActiveMode)
             {
-                case OrbwalkingMode.Combo:
+                case OrbwalkerMode.Combo:
                     Combat();
                     break;
-                case OrbwalkingMode.Hybrid:
+                case OrbwalkerMode.Harass:
                     Harass();
                     break;
             }
         }
 
-        private static void OnOrbwalkerAction(object obj, OrbwalkingActionArgs args)
+        private static void OnOrbwalkerAction(object obj, OrbwalkerActionArgs args)
         {
-            if (args.Type == OrbwalkingType.BeforeAttack)
+            if (args.Type == OrbwalkerType.BeforeAttack)
             {
                 if (Q.IsReady() && args.Target != null && args.Target.Type == GameObjectType.AIHeroClient)
                 {
-                    if (Variables.Orbwalker.ActiveMode == OrbwalkingMode.Combo)
+                    if (Variables.Orbwalker.ActiveMode == OrbwalkerMode.Combo)
                     {
                         Q.Cast();
                     }
-                    else if (Variables.Orbwalker.ActiveMode == OrbwalkingMode.Hybrid)
+                    else if (Variables.Orbwalker.ActiveMode == OrbwalkerMode.Harass)
                     {
-                        if (MenuWrapper.Harass.Q.Value && Player.Instance.ManaPercent >= MenuWrapper.Harass.Mana.Value)
+                        if (MenuWrapper.Harass.Q.Enabled && Player.Instance.ManaPercent >= MenuWrapper.Harass.Mana.Value)
                         {
                             Q.Cast();
                         }
                     }
                 }
             }
-            else if (args.Type == OrbwalkingType.AfterAttack)
+            else if (args.Type == OrbwalkerType.AfterAttack)
             {
-                if (Variables.Orbwalker.ActiveMode == OrbwalkingMode.Combo)
+                if (Variables.Orbwalker.ActiveMode == OrbwalkerMode.Combo)
                 {
-                    if (MenuWrapper.Combat.WAfterAA.Value && W.IsReady() && args.Target != null && args.Target.Type == GameObjectType.AIHeroClient)
+                    if (MenuWrapper.Combat.WAfterAA.Enabled && W.IsReady() && args.Target != null && args.Target.Type == GameObjectType.AIHeroClient)
                     {
                         var target = args.Target as AIHeroClient;
                         var wPred = W.GetPrediction(target);
@@ -185,9 +189,9 @@
                         }
                     }
                 }
-                else if (Variables.Orbwalker.ActiveMode == OrbwalkingMode.LaneClear)
+                else if (Variables.Orbwalker.ActiveMode == OrbwalkerMode.LaneClear)
                 {
-                    if (Player.Instance.ManaPercent >= MenuWrapper.JungleClear.Mana.Value && MenuWrapper.JungleClear.Q.Value && Q.IsReady())
+                    if (Player.Instance.ManaPercent >= MenuWrapper.JungleClear.Mana.Value && MenuWrapper.JungleClear.Q.Enabled && Q.IsReady())
                     {
                         if (args.Target != null && args.Target.Type == GameObjectType.AIMinionClient)
                         {
@@ -205,19 +209,19 @@
             }
         }
 
-        private static void OnGapCloser(object obj, Events.GapCloserEventArgs args)
+        private static void OnGapcloser(AIHeroClient sender, Gapcloser.GapcloserArgs args)
         {
-            if (MenuWrapper.Misc.RAntiGapcloser.Value && R.IsReady() && args.IsDirectedToPlayer && args.Sender.DistanceToPlayer() < 250)
+            if (MenuWrapper.Misc.RAntiGapcloser.Enabled && R.IsReady() && args.EndPosition.DistanceToPlayer() < 250)
             {
-                R.Cast(args.Sender.Position);
+                R.Cast(sender.Position);
             }
         }
 
-        private static void OnInterruptableTarget(object obj, Events.InterruptableTargetEventArgs args)
+        private static void OnInterrupterSpell(AIHeroClient target, Interrupter.InterruptSpellArgs args)
         {
-            if (MenuWrapper.Misc.RInterrupt.Value && R.IsReady() && args.DangerLevel >= DangerLevel.Medium && args.Sender.DistanceToPlayer() < 1200)
+            if (MenuWrapper.Misc.RInterrupt.Enabled && R.IsReady() && args.DangerLevel >= Interrupter.DangerLevel.Medium && target.DistanceToPlayer() < 1200)
             {
-                R.Cast(args.Sender.Position);
+                R.Cast(target.Position);
             }
         }
 
@@ -228,13 +232,13 @@
                 return;
             }
 
-            if (MenuWrapper.Draw.W.Value)
+            if (MenuWrapper.Draw.W.Enabled)
             {
-                if (MenuWrapper.Draw.OnlyReady.Value && W.IsReady())
+                if (MenuWrapper.Draw.OnlyReady.Enabled && W.IsReady())
                 {
                     Render.Circle.DrawCircle(GameObjects.Player.Position, W.Range, Color.FromArgb(255, 159, 0), 1);
                 }
-                else if (!MenuWrapper.Draw.OnlyReady.Value)
+                else if (!MenuWrapper.Draw.OnlyReady.Enabled)
                 {
                     Render.Circle.DrawCircle(GameObjects.Player.Position, W.Range, Color.FromArgb(255, 159, 0), 1);
                 }
