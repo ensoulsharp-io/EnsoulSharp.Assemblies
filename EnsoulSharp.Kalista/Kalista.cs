@@ -93,7 +93,7 @@
                         var qPred = Q.GetPrediction(target, false, 0, CollisionObjects.Minions | CollisionObjects.YasuoWall);
                         if (qPred.Hitchance >= HitChance.High)
                         {
-                            Q.Cast(qPred.UnitPosition);
+                            Q.Cast(qPred.CastPosition);
                         }
                     }
                 }
@@ -126,7 +126,7 @@
                         var qPred = Q.GetPrediction(target, false, 0, CollisionObjects.Minions | CollisionObjects.YasuoWall);
                         if (qPred.Hitchance >= HitChance.High)
                         {
-                            Q.Cast(qPred.UnitPosition);
+                            Q.Cast(qPred.CastPosition);
                         }
                     }
                 }
@@ -135,7 +135,7 @@
                     var qPred = Q.GetPrediction(target, false, 0, CollisionObjects.Minions | CollisionObjects.YasuoWall);
                     if (qPred.Hitchance >= HitChance.High)
                     {
-                        Q.Cast(qPred.UnitPosition);
+                        Q.Cast(qPred.CastPosition);
                     }
                 }
             }
@@ -212,7 +212,7 @@
                 var qPred = Q.GetPrediction(target, false, 0, CollisionObjects.Minions | CollisionObjects.YasuoWall);
                 if (qPred.Hitchance >= HitChance.High)
                 {
-                    Q.Cast(qPred.UnitPosition);
+                    Q.Cast(qPred.CastPosition);
                 }
                 else if (MenuWrapper.Harass.QMinion.Enabled)
                 {
@@ -223,7 +223,7 @@
                     {
                         if (c.Any(x => x.IsValidTarget(Q.Range) && x.Health < Q.GetDamage(x)))
                         {
-                            Q.Cast(qPred.UnitPosition);
+                            Q.Cast(qPred.CastPosition);
                         }
                     }
                 }
@@ -296,7 +296,7 @@
                         var qPred = Q.GetPrediction(mob);
                         if (qPred.Hitchance >= HitChance.Medium)
                         {
-                            Q.Cast(qPred.UnitPosition);
+                            Q.Cast(qPred.CastPosition);
                         }
                     }
                 }
