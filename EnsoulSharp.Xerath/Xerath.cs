@@ -72,6 +72,7 @@
             var killable = new Menu("killable", "KillSteal Settings");
             killable.Add(MenuWrapper.KillAble.Q);
             killable.Add(MenuWrapper.KillAble.W);
+            killable.Add(MenuWrapper.KillAble.E);
             MyMenu.Add(killable);
 
             var misc = new Menu("misc", "Misc Settings");
@@ -193,7 +194,7 @@
                         var pred = Q.GetPrediction(target);
                         if (pred.Hitchance >= HitChance.VeryHigh)
                         {
-                            Q.Cast(pred.CastPosition);
+                            Q.ShootChargedSpell(pred.CastPosition, true);
                             return;
                         }
                     }
@@ -283,7 +284,7 @@
                             if (!W.IsReady() || target.DistanceToPlayer() > 850)
                             {
                                 var pred = Q.GetPrediction(target);
-                                if (pred.Hitchance >= HitChance.VeryHigh)
+                                if (pred.Hitchance >= HitChance.High)
                                 {
                                     Q.StartCharging();
                                 }
@@ -302,7 +303,7 @@
                         var pred = Q.GetPrediction(target);
                         if (pred.Hitchance >= HitChance.VeryHigh)
                         {
-                            Q.ShootChargedSpell(pred.CastPosition);
+                            Q.ShootChargedSpell(pred.CastPosition, true);
                         }
                     }
                 }
@@ -354,9 +355,9 @@
                             if (!W.IsReady() || target.DistanceToPlayer() > 850)
                             {
                                 var pred = Q.GetPrediction(target);
-                                if (pred.Hitchance >= HitChance.VeryHigh)
+                                if (pred.Hitchance >= HitChance.High)
                                 {
-                                    Q.StartCharging();
+                                    Q.StartCharging(true);
                                 }
                             }
                         }
@@ -374,7 +375,7 @@
                         var pred = Q.GetPrediction(target);
                         if (pred.Hitchance >= HitChance.VeryHigh)
                         {
-                            Q.ShootChargedSpell(pred.CastPosition);
+                            Q.ShootChargedSpell(pred.CastPosition, true);
                         }
                     }
                 }
