@@ -58,6 +58,8 @@
 
         public class Misc
         {
+            public static readonly MenuBool QSlow = new MenuBool("qslowcast", "Slow Q Cast(high hitchance)", false);
+            public static readonly MenuBool RSlow = new MenuBool("rslowcast", "Slow R Cast(high hitchance)");
             public static readonly MenuBool EAntiGapcloser = new MenuBool("eantigapcloser", "Use E AntiGapcloser");
             public static readonly MenuBool EInterrupt = new MenuBool("einterrupt", "Use E Interrupt Spell");
         }

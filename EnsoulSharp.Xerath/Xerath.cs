@@ -76,8 +76,10 @@
             MyMenu.Add(killable);
 
             var misc = new Menu("misc", "Misc Settings");
+            misc.Add(MenuWrapper.Misc.QSlow);
             misc.Add(MenuWrapper.Misc.EAntiGapcloser);
             misc.Add(MenuWrapper.Misc.EInterrupt);
+            misc.Add(MenuWrapper.Misc.RSlow);
             MyMenu.Add(misc);
 
             var draw = new Menu("draw", "Draw Settings");
@@ -99,6 +101,10 @@
             Interrupter.OnInterrupterSpell += OnInterrupterSpell;
             Drawing.OnDraw += OnDraw;
         }
+
+        private static HitChance QHitchance => MenuWrapper.Misc.QSlow.Enabled ? HitChance.VeryHigh : HitChance.High;
+
+        private static HitChance RHitchance => MenuWrapper.Misc.RSlow.Enabled ? HitChance.VeryHigh : HitChance.High;
 
         private static void Ultimate()
         {
@@ -130,7 +136,7 @@
             if (target != null && target.IsValidTarget(R.Range))
             {
                 var pred = R.GetPrediction(target);
-                if (pred.Hitchance >= HitChance.VeryHigh)
+                if (pred.Hitchance >= RHitchance)
                 {
                     R.Cast(pred.CastPosition);
                 }
@@ -192,7 +198,7 @@
                     if (target.IsValidTarget(Q.Range))
                     {
                         var pred = Q.GetPrediction(target);
-                        if (pred.Hitchance >= HitChance.VeryHigh)
+                        if (pred.Hitchance >= QHitchance)
                         {
                             Q.ShootChargedSpell(pred.CastPosition, true);
                             return;
@@ -301,7 +307,7 @@
                     if (target != null && target.IsValidTarget(Q.Range))
                     {
                         var pred = Q.GetPrediction(target);
-                        if (pred.Hitchance >= HitChance.VeryHigh)
+                        if (pred.Hitchance >= QHitchance)
                         {
                             Q.ShootChargedSpell(pred.CastPosition, true);
                         }
@@ -373,7 +379,7 @@
                     if (target != null && target.IsValidTarget(Q.Range))
                     {
                         var pred = Q.GetPrediction(target);
-                        if (pred.Hitchance >= HitChance.VeryHigh)
+                        if (pred.Hitchance >= QHitchance)
                         {
                             Q.ShootChargedSpell(pred.CastPosition, true);
                         }
