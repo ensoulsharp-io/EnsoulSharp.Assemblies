@@ -114,7 +114,7 @@
             }
 
             if (!MenuWrapper.Ult.Auto.Enabled &&
-                !(MenuWrapper.Combat.R.Enabled && Variables.Orbwalker.ActiveMode == OrbwalkerMode.Combo) && 
+                !(MenuWrapper.Combat.R.Enabled && Orbwalker.ActiveMode == OrbwalkerMode.Combo) && 
                 !MenuWrapper.Ult.Key.Active)
             {
                 return;
@@ -545,27 +545,27 @@
             // do not move while casting ult
             if (ObjectManager.Player.HasBuff("XerathLocusOfPower2"))
             {
-                Variables.Orbwalker.AttackState = false;
-                Variables.Orbwalker.MovementState = false;
+                Orbwalker.AttackState = false;
+                Orbwalker.MovementState = false;
                 Ultimate();
                 return;
             }
 
             // when q charge, automatic movement
-            if (Q.IsCharging && Variables.Orbwalker.ActiveMode != OrbwalkerMode.None)
+            if (Q.IsCharging && Orbwalker.ActiveMode != OrbwalkerMode.None)
             {
-                Variables.Orbwalker.AttackState = false;
+                Orbwalker.AttackState = false;
                 ObjectManager.Player.IssueOrder(GameObjectOrder.MoveTo, Game.CursorPosRaw);
             }
 
             // fix orbwalker status
-            Variables.Orbwalker.AttackState = true;
-            Variables.Orbwalker.MovementState = true;
+            Orbwalker.AttackState = true;
+            Orbwalker.MovementState = true;
 
             SemiAutomatic();
             Killable();
 
-            switch (Variables.Orbwalker.ActiveMode)
+            switch (Orbwalker.ActiveMode)
             {
                 case OrbwalkerMode.Combo:
                     Combo();

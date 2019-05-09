@@ -61,7 +61,7 @@
             MyMenu.Attach();
 
             Game.OnUpdate += OnTick;
-            Variables.Orbwalker.OnAction += OnOrbwalkerAction;
+            Orbwalker.OnAction += OnOrbwalkerAction;
             Gapcloser.OnGapcloser += OnGapcloser;
             Interrupter.OnInterrupterSpell += OnInterrupterSpell;
             Drawing.OnDraw += OnDraw;
@@ -104,7 +104,7 @@
             {
                 var target = TargetSelector.GetTarget(W.Range - 100);
                 if (target != null && target.IsValidTarget(W.Range - 100) &&
-                    target.DistanceToPlayer() > Player.Instance.GetRealAutoAttackRange(target))
+                    target.DistanceToPlayer() > ObjectManager.Player.GetRealAutoAttackRange(target))
                 {
                     var wPred = W.GetPrediction(target, false, 0, CollisionObjects.Minions);
                     if (wPred.Hitchance >= HitChance.High)
@@ -133,7 +133,7 @@
 
         private static void OnTick(EventArgs args)
         {
-            if (Player.Instance.IsDead || Player.Instance.IsRecalling() || MenuGUI.IsChatOpen || Player.Instance.IsWindingUp)
+            if (ObjectManager.Player.IsDead || ObjectManager.Player.IsRecalling() || MenuGUI.IsChatOpen || ObjectManager.Player.IsWindingUp)
             {
                 return;
             }
@@ -145,7 +145,7 @@
 
             KillAble();
 
-            switch (Variables.Orbwalker.ActiveMode)
+            switch (Orbwalker.ActiveMode)
             {
                 case OrbwalkerMode.Combo:
                     Combat();
@@ -162,13 +162,13 @@
             {
                 if (Q.IsReady() && args.Target != null && args.Target.Type == GameObjectType.AIHeroClient)
                 {
-                    if (Variables.Orbwalker.ActiveMode == OrbwalkerMode.Combo)
+                    if (Orbwalker.ActiveMode == OrbwalkerMode.Combo)
                     {
                         Q.Cast();
                     }
-                    else if (Variables.Orbwalker.ActiveMode == OrbwalkerMode.Harass)
+                    else if (Orbwalker.ActiveMode == OrbwalkerMode.Harass)
                     {
-                        if (MenuWrapper.Harass.Q.Enabled && Player.Instance.ManaPercent >= MenuWrapper.Harass.Mana.Value)
+                        if (MenuWrapper.Harass.Q.Enabled && ObjectManager.Player.ManaPercent >= MenuWrapper.Harass.Mana.Value)
                         {
                             Q.Cast();
                         }
@@ -177,7 +177,7 @@
             }
             else if (args.Type == OrbwalkerType.AfterAttack)
             {
-                if (Variables.Orbwalker.ActiveMode == OrbwalkerMode.Combo)
+                if (Orbwalker.ActiveMode == OrbwalkerMode.Combo)
                 {
                     if (MenuWrapper.Combat.WAfterAA.Enabled && W.IsReady() && args.Target != null && args.Target.Type == GameObjectType.AIHeroClient)
                     {
@@ -189,9 +189,9 @@
                         }
                     }
                 }
-                else if (Variables.Orbwalker.ActiveMode == OrbwalkerMode.LaneClear)
+                else if (Orbwalker.ActiveMode == OrbwalkerMode.LaneClear)
                 {
-                    if (Player.Instance.ManaPercent >= MenuWrapper.JungleClear.Mana.Value && MenuWrapper.JungleClear.Q.Enabled && Q.IsReady())
+                    if (ObjectManager.Player.ManaPercent >= MenuWrapper.JungleClear.Mana.Value && MenuWrapper.JungleClear.Q.Enabled && Q.IsReady())
                     {
                         if (args.Target != null && args.Target.Type == GameObjectType.AIMinionClient)
                         {
@@ -199,7 +199,7 @@
                             if (mob != null && mob.InAutoAttackRange() &&
                                 (mob.GetJungleType() == JungleType.Large ||
                                  mob.GetJungleType() == JungleType.Legendary) &&
-                                mob.Health > Player.Instance.GetAutoAttackDamage(mob) * 4)
+                                mob.Health > ObjectManager.Player.GetAutoAttackDamage(mob) * 4)
                             {
                                 Q.Cast();
                             }
@@ -227,7 +227,7 @@
 
         private static void OnDraw(EventArgs args)
         {
-            if (Player.Instance.IsDead || MenuGUI.IsChatOpen)
+            if (ObjectManager.Player.IsDead || MenuGUI.IsChatOpen)
             {
                 return;
             }

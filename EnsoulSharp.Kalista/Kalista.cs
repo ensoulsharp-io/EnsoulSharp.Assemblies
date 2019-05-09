@@ -1,7 +1,6 @@
 ﻿namespace EnsoulSharp.Kalista
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
 
     using EnsoulSharp.SDK;
@@ -121,7 +120,7 @@
             {
                 if (MenuWrapper.Combat.DisableQ.Enabled)
                 {
-                    if (Variables.Orbwalker.AttackSpeed < 1.98)
+                    if (Orbwalker.AttackSpeed < 1.98)
                     {
                         var qPred = Q.GetPrediction(target, false, 0, CollisionObjects.Minions | CollisionObjects.YasuoWall);
                         if (qPred.Hitchance >= HitChance.High)
@@ -174,7 +173,7 @@
 
             if (MenuWrapper.Combat.OrbwalkerMinion.Enabled)
             {
-                if (GameObjects.EnemyHeroes.All(x => !x.IsValidTarget(Player.Instance.AttackRange + Player.Instance.BoundingRadius + x.BoundingRadius)) &&
+                if (GameObjects.EnemyHeroes.All(x => !x.IsValidTarget(ObjectManager.Player.AttackRange + ObjectManager.Player.BoundingRadius + x.BoundingRadius)) &&
                     GameObjects.EnemyHeroes.Any(x => x.IsValidTarget(1000)))
                 {
                     var AttackUnit =
@@ -184,19 +183,19 @@
 
                     if (AttackUnit != null && !AttackUnit.IsDead && AttackUnit.InAutoAttackRange())
                     {
-                        Variables.Orbwalker.ForceTarget = AttackUnit;
+                        Orbwalker.ForceTarget = AttackUnit;
                     }
                 }
                 else
                 {
-                    Variables.Orbwalker.ForceTarget = null;
+                    Orbwalker.ForceTarget = null;
                 }
             }
         }
 
         private static void Harass()
         {
-            if (Player.Instance.ManaPercent < MenuWrapper.Harass.Mana.Value)
+            if (ObjectManager.Player.ManaPercent < MenuWrapper.Harass.Mana.Value)
             {
                 return;
             }
@@ -264,7 +263,7 @@
 
         private static void LaneClear()
         {
-            if (Player.Instance.ManaPercent < MenuWrapper.LaneClear.Mana.Value)
+            if (ObjectManager.Player.ManaPercent < MenuWrapper.LaneClear.Mana.Value)
             {
                 return;
             }
@@ -282,7 +281,7 @@
 
         private static void JungleClear()
         {
-            if (Player.Instance.ManaPercent < MenuWrapper.JungleClear.Mana.Value)
+            if (ObjectManager.Player.ManaPercent < MenuWrapper.JungleClear.Mana.Value)
             {
                 return;
             }
@@ -323,14 +322,14 @@
 
         private static void OnTick(EventArgs args)
         {
-            if (Player.Instance.IsDead || Player.Instance.IsRecalling() || MenuGUI.IsChatOpen)
+            if (ObjectManager.Player.IsDead || ObjectManager.Player.IsRecalling() || MenuGUI.IsChatOpen)
             {
                 return;
             }
 
             KillAble();
 
-            switch (Variables.Orbwalker.ActiveMode)
+            switch (Orbwalker.ActiveMode)
             {
                 case OrbwalkerMode.Combo:
                     Combat();
@@ -347,7 +346,7 @@
 
         private static void OnDraw(EventArgs args)
         {
-            if (Player.Instance.IsDead || MenuGUI.IsChatOpen)
+            if (ObjectManager.Player.IsDead || MenuGUI.IsChatOpen)
             {
                 return;
             }
@@ -379,7 +378,7 @@
 
         private static void OnEndScene(EventArgs args)
         {
-            if (Player.Instance.IsDead || MenuGUI.IsChatOpen)
+            if (ObjectManager.Player.IsDead || MenuGUI.IsChatOpen)
             {
                 return;
             }
