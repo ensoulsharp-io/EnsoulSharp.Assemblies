@@ -23,7 +23,7 @@ namespace OneKeyToWin_AIO_Sebby.Core
 
             menu = Config[Player.CharacterName][qwer.Slot + "Config"] as Menu;
 
-            menu.Add(new MenuList("DashMode", "Dash MODE", new[] { "Game Cursor", "Side", "Safe position" }, Player.CharacterName) { Index = 2 });
+            menu.Add(new MenuList("DashMode", "Dash MODE", new[] { "Game Cursor", "Side", "Safe position" }, 2, Player.CharacterName));
             menu.Add(new MenuSlider("EnemyCheck", "Block dash in x enemies", 3, 0, 5, Player.CharacterName));
             menu.Add(new MenuBool("WallCheck", "Block dash in wall", true, Player.CharacterName));
             menu.Add(new MenuBool("TurretCheck", "Block dash under turret", true, Player.CharacterName));
@@ -31,7 +31,7 @@ namespace OneKeyToWin_AIO_Sebby.Core
 
             var gap = new Menu("gap", "Gapcloser");
 
-            gap.Add(new MenuList("GapcloserMode", "Gapcloser MODE", new[] { "Game Cursor", "Away - safe position", "Disable" }, Player.CharacterName) { Index = 1 });
+            gap.Add(new MenuList("GapcloserMode", "Gapcloser MODE", new[] { "Game Cursor", "Away - safe position", "Disable" }, 1, Player.CharacterName));
             foreach (var enemy in GameObjects.EnemyHeroes)
                 gap.Add(new MenuBool("EGCchampion" + enemy.CharacterName, enemy.CharacterName, true, Player.CharacterName));
 

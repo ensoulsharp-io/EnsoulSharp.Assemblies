@@ -74,14 +74,14 @@ namespace OneKeyToWin_AIO_Sebby
             #region PREDICTION MODE
 
             var pred = new Menu("predmode", "Prediction MODE");
-            pred.Add(new MenuList("Qpred", "Q Prediction MODE", new[] { "Common prediction", "OKTW© PREDICTION", "SPrediction press F5 if not loaded", "Exory prediction" }, ObjectManager.Player.CharacterName) { Index = 1 });
-            pred.Add(new MenuList("QHitChance", "Q Hit Chance", new[] { "Very High", "High", "Medium" }, ObjectManager.Player.CharacterName) { Index = 0 });
-            pred.Add(new MenuList("Wpred", "W Prediction MODE", new[] { "Common prediction", "OKTW© PREDICTION", "SPrediction press F5 if not loaded", "Exory prediction" }, ObjectManager.Player.CharacterName) { Index = 1 });
-            pred.Add(new MenuList("WHitChance", "W Hit Chance", new[] { "Very High", "High", "Medium" }, ObjectManager.Player.CharacterName) { Index = 0 });
-            pred.Add(new MenuList("Epred", "E Prediction MODE", new[] { "Common prediction", "OKTW© PREDICTION", "SPrediction press F5 if not loaded", "Exory prediction" }, ObjectManager.Player.CharacterName) { Index = 1 });
-            pred.Add(new MenuList("EHitChance", "E Hit Chance", new[] { "Very High", "High", "Medium" }, ObjectManager.Player.CharacterName) { Index = 0 });
-            pred.Add(new MenuList("Rpred", "R Prediction MODE", new[] { "Common prediction", "OKTW© PREDICTION", "SPrediction press F5 if not loaded", "Exory prediction" }, ObjectManager.Player.CharacterName) { Index = 1 });
-            pred.Add(new MenuList("RHitChance", "R Hit Chance", new[] { "Very High", "High", "Medium" }, ObjectManager.Player.CharacterName) { Index = 0 });
+            pred.Add(new MenuList("Qpred", "Q Prediction MODE", new[] { "Common prediction", "OKTW© PREDICTION", "SPrediction press F5 if not loaded", "Exory prediction" }, 1, ObjectManager.Player.CharacterName));
+            pred.Add(new MenuList("QHitChance", "Q Hit Chance", new[] { "Very High", "High", "Medium" }, 0, ObjectManager.Player.CharacterName));
+            pred.Add(new MenuList("Wpred", "W Prediction MODE", new[] { "Common prediction", "OKTW© PREDICTION", "SPrediction press F5 if not loaded", "Exory prediction" }, 1, ObjectManager.Player.CharacterName));
+            pred.Add(new MenuList("WHitChance", "W Hit Chance", new[] { "Very High", "High", "Medium" }, 0, ObjectManager.Player.CharacterName));
+            pred.Add(new MenuList("Epred", "E Prediction MODE", new[] { "Common prediction", "OKTW© PREDICTION", "SPrediction press F5 if not loaded", "Exory prediction" }, 1, ObjectManager.Player.CharacterName));
+            pred.Add(new MenuList("EHitChance", "E Hit Chance", new[] { "Very High", "High", "Medium" }, 0, ObjectManager.Player.CharacterName));
+            pred.Add(new MenuList("Rpred", "R Prediction MODE", new[] { "Common prediction", "OKTW© PREDICTION", "SPrediction press F5 if not loaded", "Exory prediction" }, 1, ObjectManager.Player.CharacterName));
+            pred.Add(new MenuList("RHitChance", "R Hit Chance", new[] { "Very High", "High", "Medium" }, 0, ObjectManager.Player.CharacterName));
 
             pred.Add(new MenuBool("debugPred", "Draw Aiming OKTW© PREDICTION", false));
 
