@@ -24,36 +24,48 @@
             W.SetSkillshot(0.25f, 20, 1500, true, SkillshotType.Line);
             R.SetSkillshot(0.25f, 130, 1600, true, SkillshotType.Line);
 
-            MyMenu = new Menu("ensoulsharp.ashe", "EnsoulSharp.Ashe", true);
+            MyMenu = new Menu(ObjectManager.Player.CharacterName, "EnsoulSharp.Ashe", true);
 
-            var combat = new Menu("combat", "Combo Settings");
-            combat.Add(MenuWrapper.Combat.W);
-            combat.Add(MenuWrapper.Combat.WAfterAA);
-            MyMenu.Add(combat);
+            var combo = new Menu("Combo", "Combo Settings")
+            {
+                MenuWrapper.Combat.W,
+                MenuWrapper.Combat.WAfterAA
+            };
+            MyMenu.Add(combo);
 
-            var harass = new Menu("harass", "Harass Settings");
-            harass.Add(MenuWrapper.Harass.Q);
-            harass.Add(MenuWrapper.Harass.W);
-            harass.Add(MenuWrapper.Harass.Mana);
+            var harass = new Menu("Harass", "Harass Settings")
+            {
+                MenuWrapper.Harass.Q,
+                MenuWrapper.Harass.W,
+                MenuWrapper.Harass.Mana
+            };
             MyMenu.Add(harass);
 
-            var jungle = new Menu("jungle", "JungleClear Settings");
-            jungle.Add(MenuWrapper.JungleClear.Q);
-            jungle.Add(MenuWrapper.JungleClear.Mana);
+            var jungle = new Menu("JungleClear", "JungleClear Settings")
+            {
+                MenuWrapper.JungleClear.Q,
+                MenuWrapper.JungleClear.Mana
+            };
             MyMenu.Add(jungle);
 
-            var killable = new Menu("killable", "KillSteal Settings");
-            killable.Add(MenuWrapper.KillAble.W);
+            var killable = new Menu("KillSteal", "KillSteal Settings")
+            {
+                MenuWrapper.KillAble.W
+            };
             MyMenu.Add(killable);
 
-            var misc = new Menu("misc", "Misc Settings");
-            misc.Add(MenuWrapper.Misc.RAntiGapcloser);
-            misc.Add(MenuWrapper.Misc.RInterrupt);
+            var misc = new Menu("Misc", "Misc Settings")
+            {
+                MenuWrapper.Misc.RAntiGapcloser,
+                MenuWrapper.Misc.RInterrupt
+            };
             MyMenu.Add(misc);
 
-            var draw = new Menu("draw", "Draw Settings");
-            draw.Add(MenuWrapper.Draw.W);
-            draw.Add(MenuWrapper.Draw.OnlyReady);
+            var draw = new Menu("Draw", "Draw Settings")
+            {
+                MenuWrapper.Draw.W,
+                MenuWrapper.Draw.OnlyReady
+            };
             MyMenu.Add(draw);
 
             MyMenu.Add(MenuWrapper.SemiR.Key);

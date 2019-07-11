@@ -29,66 +29,82 @@
             R = new Spell(SpellSlot.R, 3200f);
             R.SetSkillshot(0.70f, 125f, float.MaxValue, false, SkillshotType.Circle);
 
-            var MyMenu = new Menu("ensoulsharp.xerath", "EnsoulSharp.Xerath", true);
+            var MyMenu = new Menu(ObjectManager.Player.CharacterName, "EnsoulSharp.Xerath", true);
 
-            var ult = new Menu("ult", "Ult Settings");
-            ult.Add(MenuWrapper.Ult.Key);
-            ult.Add(MenuWrapper.Ult.Auto);
-            ult.Add(MenuWrapper.Ult.NearMouse);
-            ult.Add(MenuWrapper.Ult.MouseZone);
-            ult.Add(MenuWrapper.Ult.DelayR);
-            ult.Add(MenuWrapper.Ult.DelayMs);
+            var ult = new Menu("Ult", "Ult Settings")
+            {
+                MenuWrapper.Ult.Key,
+                MenuWrapper.Ult.Auto,
+                MenuWrapper.Ult.NearMouse,
+                MenuWrapper.Ult.MouseZone,
+                MenuWrapper.Ult.DelayR,
+                MenuWrapper.Ult.DelayMs
+            };
             MyMenu.Add(ult);
 
-            var combat = new Menu("combat", "Combo Settings");
-            combat.Add(MenuWrapper.Combat.Q);
-            combat.Add(MenuWrapper.Combat.W);
-            combat.Add(MenuWrapper.Combat.E);
-            combat.Add(MenuWrapper.Combat.R);
+            var combat = new Menu("Combo", "Combo Settings")
+            {
+                MenuWrapper.Combat.Q,
+                MenuWrapper.Combat.W,
+                MenuWrapper.Combat.E,
+                MenuWrapper.Combat.R
+            };
             MyMenu.Add(combat);
 
-            var harass = new Menu("harass", "Harass Settings");
-            harass.Add(MenuWrapper.Harass.Q);
-            harass.Add(MenuWrapper.Harass.W);
-            harass.Add(MenuWrapper.Harass.E);
-            harass.Add(MenuWrapper.Harass.Mana);
+            var harass = new Menu("Harass", "Harass Settings")
+            {
+                MenuWrapper.Harass.Q,
+                MenuWrapper.Harass.W,
+                MenuWrapper.Harass.E,
+                MenuWrapper.Harass.Mana
+            };
             MyMenu.Add(harass);
 
-            var lane = new Menu("lane", "LaneClear Settings");
-            lane.Add(MenuWrapper.LaneClear.Q);
-            lane.Add(MenuWrapper.LaneClear.QH);
-            lane.Add(MenuWrapper.LaneClear.W);
-            lane.Add(MenuWrapper.LaneClear.WH);
-            lane.Add(MenuWrapper.LaneClear.Mana);
+            var lane = new Menu("LaneClear", "LaneClear Settings")
+            {
+                MenuWrapper.LaneClear.Q,
+                MenuWrapper.LaneClear.QH,
+                MenuWrapper.LaneClear.W,
+                MenuWrapper.LaneClear.WH,
+                MenuWrapper.LaneClear.Mana
+            };
             MyMenu.Add(lane);
 
-            var jungle = new Menu("jungle", "JungleClear Settings");
-            jungle.Add(MenuWrapper.JungleClear.Q);
-            jungle.Add(MenuWrapper.JungleClear.W);
-            jungle.Add(MenuWrapper.JungleClear.E);
-            jungle.Add(MenuWrapper.JungleClear.Mana);
+            var jungle = new Menu("JungleClear", "JungleClear Settings")
+            {
+                MenuWrapper.JungleClear.Q,
+                MenuWrapper.JungleClear.W,
+                MenuWrapper.JungleClear.E,
+                MenuWrapper.JungleClear.Mana
+            };
             MyMenu.Add(jungle);
 
-            var killable = new Menu("killable", "KillSteal Settings");
-            killable.Add(MenuWrapper.KillAble.Q);
-            killable.Add(MenuWrapper.KillAble.W);
-            killable.Add(MenuWrapper.KillAble.E);
+            var killable = new Menu("KillSteal", "KillSteal Settings")
+            {
+                MenuWrapper.KillAble.Q,
+                MenuWrapper.KillAble.W,
+                MenuWrapper.KillAble.E
+            };
             MyMenu.Add(killable);
 
-            var misc = new Menu("misc", "Misc Settings");
-            misc.Add(MenuWrapper.Misc.QSlow);
-            misc.Add(MenuWrapper.Misc.EAntiGapcloser);
-            misc.Add(MenuWrapper.Misc.EInterrupt);
-            misc.Add(MenuWrapper.Misc.RSlow);
+            var misc = new Menu("Misc", "Misc Settings")
+            {
+                MenuWrapper.Misc.QSlow,
+                MenuWrapper.Misc.EAntiGapcloser,
+                MenuWrapper.Misc.EInterrupt,
+                MenuWrapper.Misc.RSlow
+            };
             MyMenu.Add(misc);
 
-            var draw = new Menu("draw", "Draw Settings");
-            draw.Add(MenuWrapper.Draw.Q);
-            draw.Add(MenuWrapper.Draw.W);
-            draw.Add(MenuWrapper.Draw.E);
-            draw.Add(MenuWrapper.Draw.R);
-            draw.Add(MenuWrapper.Draw.RMouse);
-            draw.Add(MenuWrapper.Draw.OnlyReady);
+            var draw = new Menu("Draw", "Draw Settings")
+            {
+                MenuWrapper.Draw.Q,
+                MenuWrapper.Draw.W,
+                MenuWrapper.Draw.E,
+                MenuWrapper.Draw.R,
+                MenuWrapper.Draw.RMouse,
+                MenuWrapper.Draw.OnlyReady
+            };
             MyMenu.Add(draw);
 
             MyMenu.Add(MenuWrapper.SemiKey.W);

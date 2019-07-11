@@ -22,46 +22,59 @@
 
             Q.SetSkillshot(0.35f, 40, 2400, true, SkillshotType.Line);
 
-            MyMenu = new Menu("ensoulsharp.kalista", "EnsoulSharp.Kalista", true);
+            MyMenu = new Menu(ObjectManager.Player.CharacterName, "EnsoulSharp.Kalista", true);
 
-            var combat = new Menu("combat", "Combo Settings");
-            combat.Add(MenuWrapper.Combat.Q);
-            combat.Add(MenuWrapper.Combat.DisableQ);
-            combat.Add(MenuWrapper.Combat.E);
-            combat.Add(MenuWrapper.Combat.DisableE);
-            combat.Add(MenuWrapper.Combat.DisableE2);
-            combat.Add(MenuWrapper.Combat.OrbwalkerMinion);
+            var combat = new Menu("Combo", "Combo Settings")
+            {
+                MenuWrapper.Combat.Q,
+                MenuWrapper.Combat.DisableQ,
+                MenuWrapper.Combat.E,
+                MenuWrapper.Combat.DisableE,
+                MenuWrapper.Combat.DisableE2,
+                MenuWrapper.Combat.OrbwalkerMinion
+            };
             MyMenu.Add(combat);
 
-            var harass = new Menu("harass", "Harass Settings");
-            harass.Add(MenuWrapper.Harass.Q);
-            harass.Add(MenuWrapper.Harass.QMinion);
-            harass.Add(MenuWrapper.Harass.E);
-            harass.Add(MenuWrapper.Harass.DisableE);
-            harass.Add(MenuWrapper.Harass.DisableE2);
-            harass.Add(MenuWrapper.Harass.Mana);
+            var harass = new Menu("Harass", "Harass Settings")
+            {
+                MenuWrapper.Harass.Q,
+                MenuWrapper.Harass.QMinion,
+                MenuWrapper.Harass.E,
+                MenuWrapper.Harass.DisableE,
+                MenuWrapper.Harass.DisableE2,
+                MenuWrapper.Harass.Mana
+            };
             MyMenu.Add(harass);
 
-            var lane = new Menu("lane", "LaneClear Settings");
-            lane.Add(MenuWrapper.LaneClear.E);
-            lane.Add(MenuWrapper.LaneClear.Mana);
+            var lane = new Menu("LaneClear", "LaneClear Settings")
+            {
+                MenuWrapper.LaneClear.E,
+                MenuWrapper.LaneClear.Mana
+            };
             MyMenu.Add(lane);
 
-            var jungle = new Menu("jungle", "JungleClear Settings");
-            jungle.Add(MenuWrapper.JungleClear.Q);
-            jungle.Add(MenuWrapper.JungleClear.E);
-            jungle.Add(MenuWrapper.JungleClear.Mana);
+            var jungle = new Menu("JungleClear", "JungleClear Settings")
+            {
+                MenuWrapper.JungleClear.Q,
+                MenuWrapper.JungleClear.E,
+                MenuWrapper.JungleClear.Mana
+            };
+            MyMenu.Add(jungle);
 
-            var killable = new Menu("killable", "KillSteal Settings");
-            killable.Add(MenuWrapper.KillAble.Q);
-            killable.Add(MenuWrapper.KillAble.E);
+            var killable = new Menu("KillSteal", "KillSteal Settings")
+            {
+                MenuWrapper.KillAble.Q,
+                MenuWrapper.KillAble.E
+            };
             MyMenu.Add(killable);
 
-            var draw = new Menu("draw", "Draw Settings");
-            draw.Add(MenuWrapper.Draw.Q);
-            draw.Add(MenuWrapper.Draw.E);
-            draw.Add(MenuWrapper.Draw.OnlyReady);
-            draw.Add(MenuWrapper.Draw.DMG);
+            var draw = new Menu("Draw", "Draw Settings")
+            {
+                MenuWrapper.Draw.Q,
+                MenuWrapper.Draw.E,
+                MenuWrapper.Draw.OnlyReady,
+                MenuWrapper.Draw.DMG
+            };
             MyMenu.Add(draw);
 
             MyMenu.Attach();
