@@ -248,7 +248,7 @@ namespace SPrediction
             catch
             {
                 Menu m = new Menu("SPREDX", "SPrediction");
-                m.Add(new MenuList<string>("PREDICTONLIST", "Prediction Method", new[] { "SPrediction", "Common Prediction" }) { Index = 1 });
+                m.Add(new MenuList("PREDICTONLIST", "Prediction Method", new[] { "SPrediction", "Common Prediction" }) { Index = 1 });
                 return m;
             }
         }
