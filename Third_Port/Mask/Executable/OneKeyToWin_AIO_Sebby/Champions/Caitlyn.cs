@@ -58,7 +58,7 @@ namespace OneKeyToWin_AIO_Sebby.Champions
             w.Add(new MenuBool("bushW2", "Auto W bush and turret if full ammo", true, Player.CharacterName));
             w.Add(new MenuBool("Wspell", "W on special spell detection", true, Player.CharacterName));
             var wgap = new Menu("wgap", "W Gap Closer");
-            wgap.Add(new MenuList<string>("WmodeGC", "Gap Closer position mode", new[] { "Dash end position", "My hero position" }, Player.CharacterName) { Index = 0 });
+            wgap.Add(new MenuList("WmodeGC", "Gap Closer position mode", new[] { "Dash end position", "My hero position" }, 0, Player.CharacterName));
             var wgaplist = new Menu("wgaplist", "Cast on enemy:");
             foreach (var enemy in GameObjects.EnemyHeroes)
                 wgaplist.Add(new MenuBool("WGCchampion" + enemy.CharacterName, enemy.CharacterName, true, Player.CharacterName));
@@ -73,7 +73,7 @@ namespace OneKeyToWin_AIO_Sebby.Champions
             e.Add(new MenuBool("EQks", "Ks E + Q + AA", true, Player.CharacterName));
             e.Add(new MenuKeyBind("useE", "Dash E HotKeySmartcast", Keys.T, KeyBindType.Press, Player.CharacterName));
             var egap = new Menu("egap", "E Gap Closer");
-            egap.Add(new MenuList<string>("EmodeGC", "Gap Closer position mode", new[] { "Dash end position", "Cursor position", "Enemy position" }, Player.CharacterName) { Index = 2 });
+            egap.Add(new MenuList("EmodeGC", "Gap Closer position mode", new[] { "Dash end position", "Cursor position", "Enemy position" }, 2, Player.CharacterName));
             var egaplist = new Menu("egaplist", "Cast on enemy:");
             foreach (var enemy in GameObjects.EnemyHeroes)
                 egaplist.Add(new MenuBool("EGCchampion" + enemy.CharacterName, enemy.CharacterName, true, Player.CharacterName));
@@ -138,7 +138,7 @@ namespace OneKeyToWin_AIO_Sebby.Champions
             {
                 if (E.IsReady() && sender.IsValidTarget(E.Range) && Config[Player.CharacterName]["EConfig"]["egap"]["egaplist"].GetValue<MenuBool>("EGCchampion" + sender.CharacterName).Enabled)
                 {
-                    var EmodeGC = Config[Player.CharacterName]["EConfig"]["egap"].GetValue<MenuList<string>>("EmodeGC").Index;
+                    var EmodeGC = Config[Player.CharacterName]["EConfig"]["egap"].GetValue<MenuList>("EmodeGC").Index;
                     if (EmodeGC == 0)
                         E.Cast(args.EndPosition);
                     else if (EmodeGC == 1)
@@ -148,7 +148,7 @@ namespace OneKeyToWin_AIO_Sebby.Champions
                 }
                 else if (W.IsReady() && sender.IsValidTarget(W.Range) && Config[Player.CharacterName]["WConfig"]["wgap"]["wgaplist"].GetValue<MenuBool>("WGCchampion" + sender.CharacterName).Enabled)
                 {
-                    var WmodeGC = Config[Player.CharacterName]["WConfig"]["wgap"].GetValue<MenuList<string>>("WmodeGC").Index;
+                    var WmodeGC = Config[Player.CharacterName]["WConfig"]["wgap"].GetValue<MenuList>("WmodeGC").Index;
                     if (WmodeGC == 0)
                         W.Cast(args.EndPosition);
                     else

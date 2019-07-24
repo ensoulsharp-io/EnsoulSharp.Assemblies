@@ -52,7 +52,7 @@ namespace SPrediction
         public static Menu Initialize(string prefMenuName = "SPRED")
         {
             s_Menu = new Menu(prefMenuName, "SPrediction");
-            s_Menu.Add(new MenuList<string>("PREDICTONLIST", "Prediction Method", new[] { "SPrediction", "Common Prediction" }) { Index = 0 });
+            s_Menu.Add(new MenuList("PREDICTONLIST", "Prediction Method", new[] { "SPrediction", "Common Prediction" }) { Index = 0 });
             s_Menu.Add(new MenuBool("SPREDWINDUP", "Check for target AA Windup", false));
             s_Menu.Add(new MenuSlider("SPREDMAXRANGEIGNORE", "Max Range Dodge Ignore (%)", 50));
             s_Menu.Add(new MenuSlider("SPREDREACTIONDELAY", "Ignore Rection Delay", 0, 0, 200));
@@ -69,9 +69,9 @@ namespace SPrediction
         /// <summary>
         /// Gets selected prediction for spell extensions
         /// </summary>
-        public static MenuList<string> SelectedPrediction
+        public static MenuList SelectedPrediction
         {
-            get { return s_Menu.GetValue<MenuList<string>>("PREDICTONLIST"); }
+            get { return s_Menu.GetValue<MenuList>("PREDICTONLIST"); }
         }
 
         /// <summary>

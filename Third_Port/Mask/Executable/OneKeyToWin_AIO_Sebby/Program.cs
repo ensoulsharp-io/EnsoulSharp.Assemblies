@@ -74,23 +74,23 @@ namespace OneKeyToWin_AIO_Sebby
             #region PREDICTION MODE
 
             var pred = new Menu("predmode", "Prediction MODE");
-            pred.Add(new MenuList<string>("Qpred", "Q Prediction MODE", new[] { "Common prediction", "OKTW© PREDICTION", "SPrediction press F5 if not loaded", "Exory prediction" }, ObjectManager.Player.CharacterName) { Index = 1 });
-            pred.Add(new MenuList<string>("QHitChance", "Q Hit Chance", new[] { "Very High", "High", "Medium" }, ObjectManager.Player.CharacterName) { Index = 0 });
-            pred.Add(new MenuList<string>("Wpred", "W Prediction MODE", new[] { "Common prediction", "OKTW© PREDICTION", "SPrediction press F5 if not loaded", "Exory prediction" }, ObjectManager.Player.CharacterName) { Index = 1 });
-            pred.Add(new MenuList<string>("WHitChance", "W Hit Chance", new[] { "Very High", "High", "Medium" }, ObjectManager.Player.CharacterName) { Index = 0 });
-            pred.Add(new MenuList<string>("Epred", "E Prediction MODE", new[] { "Common prediction", "OKTW© PREDICTION", "SPrediction press F5 if not loaded", "Exory prediction" }, ObjectManager.Player.CharacterName) { Index = 1 });
-            pred.Add(new MenuList<string>("EHitChance", "E Hit Chance", new[] { "Very High", "High", "Medium" }, ObjectManager.Player.CharacterName) { Index = 0 });
-            pred.Add(new MenuList<string>("Rpred", "R Prediction MODE", new[] { "Common prediction", "OKTW© PREDICTION", "SPrediction press F5 if not loaded", "Exory prediction" }, ObjectManager.Player.CharacterName) { Index = 1 });
-            pred.Add(new MenuList<string>("RHitChance", "R Hit Chance", new[] { "Very High", "High", "Medium" }, ObjectManager.Player.CharacterName) { Index = 0 });
+            pred.Add(new MenuList("Qpred", "Q Prediction MODE", new[] { "Common prediction", "OKTW© PREDICTION", "SPrediction press F5 if not loaded", "Exory prediction" }, 1, ObjectManager.Player.CharacterName));
+            pred.Add(new MenuList("QHitChance", "Q Hit Chance", new[] { "Very High", "High", "Medium" }, 0, ObjectManager.Player.CharacterName));
+            pred.Add(new MenuList("Wpred", "W Prediction MODE", new[] { "Common prediction", "OKTW© PREDICTION", "SPrediction press F5 if not loaded", "Exory prediction" }, 1, ObjectManager.Player.CharacterName));
+            pred.Add(new MenuList("WHitChance", "W Hit Chance", new[] { "Very High", "High", "Medium" }, 0, ObjectManager.Player.CharacterName));
+            pred.Add(new MenuList("Epred", "E Prediction MODE", new[] { "Common prediction", "OKTW© PREDICTION", "SPrediction press F5 if not loaded", "Exory prediction" }, 1, ObjectManager.Player.CharacterName));
+            pred.Add(new MenuList("EHitChance", "E Hit Chance", new[] { "Very High", "High", "Medium" }, 0, ObjectManager.Player.CharacterName));
+            pred.Add(new MenuList("Rpred", "R Prediction MODE", new[] { "Common prediction", "OKTW© PREDICTION", "SPrediction press F5 if not loaded", "Exory prediction" }, 1, ObjectManager.Player.CharacterName));
+            pred.Add(new MenuList("RHitChance", "R Hit Chance", new[] { "Very High", "High", "Medium" }, 0, ObjectManager.Player.CharacterName));
 
             pred.Add(new MenuBool("debugPred", "Draw Aiming OKTW© PREDICTION", false));
 
             Config.Add(pred);
 
-            if (pred.GetValue<MenuList<string>>("Qpred").Index == 2 ||
-                pred.GetValue<MenuList<string>>("Wpred").Index == 2 ||
-                pred.GetValue<MenuList<string>>("Epred").Index == 2 ||
-                pred.GetValue<MenuList<string>>("Rpred").Index == 2)
+            if (pred.GetValue<MenuList>("Qpred").Index == 2 ||
+                pred.GetValue<MenuList>("Wpred").Index == 2 ||
+                pred.GetValue<MenuList>("Epred").Index == 2 ||
+                pred.GetValue<MenuList>("Rpred").Index == 2)
             {
                 SPrediction.Prediction.Initialize(pred);
                 SPredictionLoad = true;
@@ -139,7 +139,7 @@ namespace OneKeyToWin_AIO_Sebby
             var farm = new Menu("farm", "Farm");
             var spellFarm = new Menu("spellfarm", "SPELLS FARM TOGGLE");
             spellFarm.Add(new MenuBool("spellFarm", "OKTW spells farm", true));
-            spellFarm.Add(new MenuList<string>("spellFarmMode", "SPELLS FARM TOGGLE MODE", new[] { "Scroll down", "Scroll press", "Key toggle", "Disable" }) { Index = 1 });
+            spellFarm.Add(new MenuList("spellFarmMode", "SPELLS FARM TOGGLE MODE", new[] { "Scroll down", "Scroll press", "Key toggle", "Disable" }) { Index = 1 });
             spellFarm.Add(new MenuKeyBind("spellFarmKeyToggle", "Key toggle", Keys.N, KeyBindType.Toggle));
             spellFarm.Add(new MenuBool("showNot", "Show notification", true));
             spellFarm.GetValue<MenuBool>("spellFarm").Permashow(true);
@@ -203,10 +203,10 @@ namespace OneKeyToWin_AIO_Sebby
         private static void Drawing_OnDraw(EventArgs args)
         {
             if (!SPredictionLoad && (int)Game.Time % 2 == 0 &&
-                (Config["predmode"].GetValue<MenuList<string>>("Qpred").Index == 2 ||
-                Config["predmode"].GetValue<MenuList<string>>("Wpred").Index == 2 ||
-                Config["predmode"].GetValue<MenuList<string>>("Epred").Index == 2 ||
-                Config["predmode"].GetValue<MenuList<string>>("Rpred").Index == 2))
+                (Config["predmode"].GetValue<MenuList>("Qpred").Index == 2 ||
+                Config["predmode"].GetValue<MenuList>("Wpred").Index == 2 ||
+                Config["predmode"].GetValue<MenuList>("Epred").Index == 2 ||
+                Config["predmode"].GetValue<MenuList>("Rpred").Index == 2))
             {
                 drawText("PRESS F5 TO LOAD SPREDICTION", Player.Position, System.Drawing.Color.Yellow, -300);
             }
@@ -231,10 +231,10 @@ namespace OneKeyToWin_AIO_Sebby
             }
 
             if (Game.Time - DrawSpellTime < 0.5 && Config["predmode"].GetValue<MenuBool>("debugPred").Enabled &&
-                (Config["predmode"].GetValue<MenuList<string>>("Qpred").Index == 1 ||
-                Config["predmode"].GetValue<MenuList<string>>("Wpred").Index == 1 ||
-                Config["predmode"].GetValue<MenuList<string>>("Epred").Index == 1 ||
-                Config["predmode"].GetValue<MenuList<string>>("Rpred").Index == 1))
+                (Config["predmode"].GetValue<MenuList>("Qpred").Index == 1 ||
+                Config["predmode"].GetValue<MenuList>("Wpred").Index == 1 ||
+                Config["predmode"].GetValue<MenuList>("Epred").Index == 1 ||
+                Config["predmode"].GetValue<MenuList>("Rpred").Index == 1))
             {
                 if (DrawSpell.Type == SkillshotType.Line)
                     OktwCommon.DrawLineRectangle(DrawSpellPos.CastPosition, Player.Position, (int)DrawSpell.Width, 1, System.Drawing.Color.DimGray);
@@ -247,7 +247,7 @@ namespace OneKeyToWin_AIO_Sebby
 
         private static void Game_OnUpdate(EventArgs args)
         {
-            if (LagFree(0) && Config["farm"]["spellfarm"].GetValue<MenuList<string>>("spellFarmMode").Index == 2)
+            if (LagFree(0) && Config["farm"]["spellfarm"].GetValue<MenuList>("spellFarmMode").Index == 2)
             {
                 var spellFarmKeyToggle = Config["farm"]["spellfarm"].GetValue<MenuKeyBind>("spellFarmKeyToggle");
                 var spellFarm = Config["farm"]["spellfarm"].GetValue<MenuBool>("spellFarm");
@@ -291,7 +291,7 @@ namespace OneKeyToWin_AIO_Sebby
 
         private static void Game_OnWndProc(WndEventArgs args)
         {
-            var idx = Config["farm"]["spellfarm"].GetValue<MenuList<string>>("spellFarmMode").Index;
+            var idx = Config["farm"]["spellfarm"].GetValue<MenuList>("spellFarmMode").Index;
 
             if (idx == 3)
                 return;
@@ -417,8 +417,8 @@ namespace OneKeyToWin_AIO_Sebby
 
             if (QWER.Slot == SpellSlot.Q)
             {
-                predIndex = Config["predmode"].GetValue<MenuList<string>>("Qpred").Index;
-                var QHitChance = Config["predmode"].GetValue<MenuList<string>>("QHitChance").Index;
+                predIndex = Config["predmode"].GetValue<MenuList>("Qpred").Index;
+                var QHitChance = Config["predmode"].GetValue<MenuList>("QHitChance").Index;
                 if (QHitChance == 0)
                     hitchance = HitChance.VeryHigh;
                 else if (QHitChance == 1)
@@ -428,8 +428,8 @@ namespace OneKeyToWin_AIO_Sebby
             }
             else if (QWER.Slot == SpellSlot.W)
             {
-                predIndex = Config["predmode"].GetValue<MenuList<string>>("Wpred").Index;
-                var WHitChance = Config["predmode"].GetValue<MenuList<string>>("WHitChance").Index;
+                predIndex = Config["predmode"].GetValue<MenuList>("Wpred").Index;
+                var WHitChance = Config["predmode"].GetValue<MenuList>("WHitChance").Index;
                 if (WHitChance == 0)
                     hitchance = HitChance.VeryHigh;
                 else if (WHitChance == 1)
@@ -439,8 +439,8 @@ namespace OneKeyToWin_AIO_Sebby
             }
             else if (QWER.Slot == SpellSlot.E)
             {
-                predIndex = Config["predmode"].GetValue<MenuList<string>>("Epred").Index;
-                var EHitChance = Config["predmode"].GetValue<MenuList<string>>("EHitChance").Index;
+                predIndex = Config["predmode"].GetValue<MenuList>("Epred").Index;
+                var EHitChance = Config["predmode"].GetValue<MenuList>("EHitChance").Index;
                 if (EHitChance == 0)
                     hitchance = HitChance.VeryHigh;
                 else if (EHitChance == 1)
@@ -450,8 +450,8 @@ namespace OneKeyToWin_AIO_Sebby
             }
             else if (QWER.Slot == SpellSlot.R)
             {
-                predIndex = Config["predmode"].GetValue<MenuList<string>>("Rpred").Index;
-                var RHitChance = Config["predmode"].GetValue<MenuList<string>>("RHitChance").Index;
+                predIndex = Config["predmode"].GetValue<MenuList>("Rpred").Index;
+                var RHitChance = Config["predmode"].GetValue<MenuList>("RHitChance").Index;
                 if (RHitChance == 0)
                     hitchance = HitChance.VeryHigh;
                 else if (RHitChance == 1)
