@@ -195,8 +195,8 @@ namespace OneKeyToWin_AIO_Sebby
 
             if (about.GetValue<MenuBool>("print").Enabled)
             {
-                Chat.PrintChat("<font size='30'>OneKeyToWin</font> <font color='#b756c5'>by Sebby</font>");
-                Chat.PrintChat("<font color='#b756c5'>OKTW NEWS: </font>" + OktwNews);
+                Chat.Print("<font size='30'>OneKeyToWin</font> <font color='#b756c5'>by Sebby</font>");
+                Chat.Print("<font color='#b756c5'>OKTW NEWS: </font>" + OktwNews);
             }
         }
 
@@ -596,7 +596,7 @@ namespace OneKeyToWin_AIO_Sebby
             }
             if (Config["about"].GetValue<MenuBool>("debugChat").Enabled)
             {
-                Chat.PrintChat(msg);
+                Chat.Print(msg);
             }
         }
 
