@@ -27,10 +27,10 @@ namespace OneKeyToWin_AIO_Sebby.Champions
             R = new Spell(SpellSlot.R, 1100);
             R1 = new Spell(SpellSlot.R, 1900);
 
-            Q.SetSkillshot(0.25f, 40, 3000, false, SkillshotType.Line);
-            W.SetSkillshot(0.25f, 225, 1500, false, SkillshotType.Circle);
-            R.SetSkillshot(0.25f, 100, 2100, false, SkillshotType.Line);
-            R1.SetSkillshot(0.25f, 100, 2100, false, SkillshotType.Line);
+            Q.SetSkillshot(0.25f, 40, 3000, false, false, SkillshotType.Line);
+            W.SetSkillshot(0.25f, 225, 1500, false, false, SkillshotType.Circle);
+            R.SetSkillshot(0.25f, 100, 2100, false, false, SkillshotType.Line);
+            R1.SetSkillshot(0.25f, 100, 2100, false, false, SkillshotType.Line);
 
             var wrapper = new Menu(Player.CharacterName, Player.CharacterName);
 
