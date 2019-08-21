@@ -21,8 +21,8 @@
             W = new Spell(SpellSlot.W, 1250f);
             R = new Spell(SpellSlot.R, 4500f);
 
-            W.SetSkillshot(0.25f, 20, 1500, true, SkillshotType.Line);
-            R.SetSkillshot(0.25f, 130, 1600, true, SkillshotType.Line);
+            W.SetSkillshot(0.25f, 20, 1500, true, true, SkillshotType.Line);
+            R.SetSkillshot(0.25f, 130, 1600, true, false, SkillshotType.Line);
 
             MyMenu = new Menu(ObjectManager.Player.CharacterName, "EnsoulSharp.Ashe", true);
 

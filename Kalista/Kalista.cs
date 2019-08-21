@@ -20,7 +20,7 @@
             Q = new Spell(SpellSlot.Q, 1150f);
             E = new Spell(SpellSlot.E, 1000f);
 
-            Q.SetSkillshot(0.35f, 40, 2400, true, SkillshotType.Line);
+            Q.SetSkillshot(0.35f, 40, 2400, true, false, SkillshotType.Line);
 
             MyMenu = new Menu(ObjectManager.Player.CharacterName, "EnsoulSharp.Kalista", true);
 

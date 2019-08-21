@@ -17,17 +17,17 @@
         public static void OnLoad()
         {
             Q = new Spell(SpellSlot.Q, 750f);
-            Q.SetSkillshot(0.60f, 95f, float.MaxValue, false, SkillshotType.Line);
+            Q.SetSkillshot(0.60f, 95f, float.MaxValue, false, false, SkillshotType.Line);
             Q.SetCharged("XerathArcanopulseChargeUp", "XerathArcanopulseChargeUp", 750, 1550, 1.5f);
 
             W = new Spell(SpellSlot.W, 950f);
-            W.SetSkillshot(0.70f, 125f, float.MaxValue, false, SkillshotType.Circle);
+            W.SetSkillshot(0.70f, 125f, float.MaxValue, false, true, SkillshotType.Circle);
 
             E = new Spell(SpellSlot.E, 1050f);
-            E.SetSkillshot(0.25f, 60f, 1400f, true, SkillshotType.Line);
+            E.SetSkillshot(0.25f, 60f, 1400f, true, false, SkillshotType.Line);
 
             R = new Spell(SpellSlot.R, 3200f);
-            R.SetSkillshot(0.70f, 125f, float.MaxValue, false, SkillshotType.Circle);
+            R.SetSkillshot(0.70f, 125f, float.MaxValue, false, false, SkillshotType.Circle);
 
             var MyMenu = new Menu(ObjectManager.Player.CharacterName, "EnsoulSharp.Xerath", true);
 
