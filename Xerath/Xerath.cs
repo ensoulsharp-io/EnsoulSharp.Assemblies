@@ -26,7 +26,7 @@
             E = new Spell(SpellSlot.E, 1050f);
             E.SetSkillshot(0.25f, 60f, 1400f, true, false, SkillshotType.Line);
 
-            R = new Spell(SpellSlot.R, 3200f);
+            R = new Spell(SpellSlot.R, 5000f);
             R.SetSkillshot(0.70f, 125f, float.MaxValue, false, false, SkillshotType.Circle);
 
             var MyMenu = new Menu(ObjectManager.Player.CharacterName, "EnsoulSharp.Xerath", true);
@@ -550,12 +550,6 @@
             if (MenuGUI.IsChatOpen || MenuGUI.IsShopOpen)
             {
                 return;
-            }
-
-            // r range fix
-            if (R.Level > 0)
-            {
-                R.Range = 2000 + 1200 * R.Level;
             }
 
             // do not move while casting ult
