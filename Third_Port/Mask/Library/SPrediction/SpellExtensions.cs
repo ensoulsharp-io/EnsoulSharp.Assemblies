@@ -275,7 +275,7 @@ namespace SPrediction
                 return s.Cast();
 
             if (!s.IsSkillShot)
-                return s.Cast(t);
+                return s.Cast(t) == CastStates.SuccessfullyCasted;
 
             #region if common prediction selected
             if (ConfigMenu.SelectedPrediction.Index == 1)
