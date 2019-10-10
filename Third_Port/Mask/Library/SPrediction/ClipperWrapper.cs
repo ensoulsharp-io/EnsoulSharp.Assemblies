@@ -17,11 +17,12 @@
 */
 
 using EnsoulSharp.SDK;
+using EnsoulSharp.SDK.Clipper;
 
 using SharpDX;
 
-using Path = System.Collections.Generic.List<EnsoulSharp.SDK.IntPoint>;
-using Paths = System.Collections.Generic.List<System.Collections.Generic.List<EnsoulSharp.SDK.IntPoint>>;
+using Path = System.Collections.Generic.List<EnsoulSharp.SDK.Clipper.IntPoint>;
+using Paths = System.Collections.Generic.List<System.Collections.Generic.List<EnsoulSharp.SDK.Clipper.IntPoint>>;
 
 namespace SPrediction
 {
