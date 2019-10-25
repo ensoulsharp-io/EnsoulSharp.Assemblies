@@ -191,7 +191,7 @@
                 {
                     var AttackUnit =
                         GameObjects.EnemyMinions.Where(x => x.InAutoAttackRange())
-                            .OrderBy(x => x.Distance(Game.CursorPosRaw))
+                            .OrderBy(x => x.Distance(Game.CursorPos))
                             .FirstOrDefault();
 
                     if (AttackUnit != null && !AttackUnit.IsDead && AttackUnit.InAutoAttackRange())

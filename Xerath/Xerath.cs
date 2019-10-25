@@ -4,6 +4,7 @@
     using System.Linq;
 
     using EnsoulSharp.SDK;
+    using EnsoulSharp.SDK.Events;
     using EnsoulSharp.SDK.MenuUI;
     using EnsoulSharp.SDK.Prediction;
     using EnsoulSharp.SDK.Utility;
@@ -26,7 +27,7 @@
             E = new Spell(SpellSlot.E, 1050f);
             E.SetSkillshot(0.25f, 60f, 1400f, true, false, SkillshotType.Line);
 
-            R = new Spell(SpellSlot.R, 5000f);
+            R = new Spell(SpellSlot.R, 3200f);
             R.SetSkillshot(0.70f, 125f, float.MaxValue, false, false, SkillshotType.Circle);
 
             var MyMenu = new Menu(ObjectManager.Player.CharacterName, "EnsoulSharp.Xerath", true);
@@ -112,7 +113,7 @@
 
             MyMenu.Attach();
 
-            Game.OnUpdate += OnUpdate;
+            Tick.OnTick += OnUpdate;
             Gapcloser.OnGapcloser += OnGapcloser;
             Interrupter.OnInterrupterSpell += OnInterrupterSpell;
             Drawing.OnDraw += OnDraw;
@@ -146,7 +147,7 @@
             if (MenuWrapper.Ult.NearMouse.Enabled && MenuWrapper.Ult.MouseZone.Value > 0)
             {
                 target = TargetSelector.GetTargets(R.Range).FirstOrDefault(x =>
-                    x.Position.Distance(Game.CursorPosRaw) <= MenuWrapper.Ult.MouseZone.Value);
+                    x.Position.Distance(Game.CursorPos) <= MenuWrapper.Ult.MouseZone.Value);
             }
 
             if (target != null && target.IsValidTarget(R.Range))
@@ -164,7 +165,7 @@
             if (MenuWrapper.SemiKey.W.Active && W.IsReady() && !ObjectManager.Player.HasBuff("XerathLocusOfPower2") && 
                 !Q.IsCharging)
             {
-                ObjectManager.Player.IssueOrder(GameObjectOrder.MoveTo, Game.CursorPosRaw);
+                ObjectManager.Player.IssueOrder(GameObjectOrder.MoveTo, Game.CursorPos);
 
                 var target = TargetSelector.GetTarget(W.Range);
                 if (target != null && target.IsValidTarget(W.Range))
@@ -180,7 +181,7 @@
             if (MenuWrapper.SemiKey.E.Active && E.IsReady() && !ObjectManager.Player.HasBuff("XerathLocusOfPower2") && 
                 !Q.IsCharging)
             {
-                ObjectManager.Player.IssueOrder(GameObjectOrder.MoveTo, Game.CursorPosRaw);
+                ObjectManager.Player.IssueOrder(GameObjectOrder.MoveTo, Game.CursorPos);
 
                 var target = TargetSelector.GetTarget(E.Range);
                 if (target != null && target.IsValidTarget(E.Range))
@@ -552,6 +553,12 @@
                 return;
             }
 
+            // r range fix
+            if (R.Level > 0)
+            {
+                R.Range = 2000 + 1200 * R.Level;
+            }
+
             // do not move while casting ult
             if (ObjectManager.Player.HasBuff("XerathLocusOfPower2"))
             {
@@ -565,7 +572,7 @@
             if (Q.IsCharging && Orbwalker.ActiveMode != OrbwalkerMode.None)
             {
                 Orbwalker.AttackState = false;
-                ObjectManager.Player.IssueOrder(GameObjectOrder.MoveTo, Game.CursorPosRaw);
+                ObjectManager.Player.IssueOrder(GameObjectOrder.MoveTo, Game.CursorPos);
             }
 
             // fix orbwalker status
@@ -708,11 +715,11 @@
             {
                 if (MenuWrapper.Draw.OnlyReady.Enabled && R.IsReady())
                 {
-                    Render.Circle.DrawCircle(Game.CursorPosRaw, MenuWrapper.Ult.MouseZone.Value, Color.White, 1);
+                    Render.Circle.DrawCircle(Game.CursorPos, MenuWrapper.Ult.MouseZone.Value, Color.White, 1);
                 }
                 else if (!MenuWrapper.Draw.OnlyReady.Enabled)
                 {
-                    Render.Circle.DrawCircle(Game.CursorPosRaw, MenuWrapper.Ult.MouseZone.Value, Color.White, 1);
+                    Render.Circle.DrawCircle(Game.CursorPos, MenuWrapper.Ult.MouseZone.Value, Color.White, 1);
                 }
             }
         }
