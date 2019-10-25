@@ -94,7 +94,7 @@ namespace SPrediction
 
             var enemy = EnemyInfo[sender.NetworkId];
 
-            if (args.Path.Length < 2)
+            if (args.Path.Count < 2)
             {
                 if (!enemy.IsStopped)
                 {

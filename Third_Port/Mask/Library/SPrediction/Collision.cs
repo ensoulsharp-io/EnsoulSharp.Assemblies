@@ -204,7 +204,7 @@ namespace SPrediction
                     var wall = effectEmitter;
                     var level = wall.Name.Substring(wall.Name.Length - 2, 2);
                     var wallWidth = 250 + 50 * Convert.ToInt32(level);
-                    var wallDirection = wall.Perpendicular.ToVector2();
+                    var wallDirection = wall.Position.Perpendicular().ToVector2();
                     var wallStart = wall.Position.ToVector2() + wallWidth / 2 * wallDirection;
                     var wallEnd = wallStart - wallWidth * wallDirection;
                     var wallPoly = ClipperWrapper.DefineRectangle(wallStart, wallEnd, 5);
@@ -242,7 +242,7 @@ namespace SPrediction
                     var wall = effectEmitter;
                     var level = wall.Name.Substring(wall.Name.Length - 2, 2);
                     var wallWidth = 250 + 50 * Convert.ToInt32(level);
-                    var wallDirection = wall.Perpendicular.ToVector2();
+                    var wallDirection = wall.Position.Perpendicular().ToVector2();
                     var wallStart = wall.Position.ToVector2() + wallWidth / 2 * wallDirection;
                     var wallEnd = wallStart - wallWidth * wallDirection;
                     var wallPoly = ClipperWrapper.DefineRectangle(wallStart, wallEnd, 5);

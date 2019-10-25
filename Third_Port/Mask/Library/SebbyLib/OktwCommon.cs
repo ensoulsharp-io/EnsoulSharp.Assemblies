@@ -24,7 +24,7 @@ namespace SebbyLib
             Game.OnWndProc += Game_OnWndProc;
             Game.OnUpdate += Game_OnUpdate;
             Spellbook.OnCastSpell += Spellbook_OnCastSpell;
-            EnsoulSharp.Player.OnIssueOrder += Player_OnIssueOrder;
+            AIBaseClient.OnIssueOrder += Player_OnIssueOrder;
         }
 
         public static double GetIncomingDamage(AIHeroClient target, float time = 0.5f, bool skillshots = true)
@@ -125,7 +125,7 @@ namespace SebbyLib
         public static bool ValidUlt(AIHeroClient target)
         {
             return !(target.HasBuffOfType(BuffType.PhysicalImmunity) || target.HasBuffOfType(BuffType.SpellImmunity)
-                || target.IsZombie || target.IsInvulnerable || target.HasBuffOfType(BuffType.Invulnerability) || target.HasBuff("KindredRNoDeathBuff")
+                || target.IsInvulnerable || target.HasBuffOfType(BuffType.Invulnerability) || target.HasBuff("KindredRNoDeathBuff")
                 || target.HasBuffOfType(BuffType.SpellShield) || target.Health - GetIncomingDamage(target) < 1);
         }
 
@@ -222,7 +222,7 @@ namespace SebbyLib
                     var wall = effectEmitter;
                     var level = wall.Name.Substring(wall.Name.Length - 2, 2);
                     var wallWidth = 350 + 50 * Convert.ToInt32(level);
-                    var wallDirection = wall.Perpendicular.ToVector2();
+                    var wallDirection = wall.Position.Perpendicular().ToVector2();
                     var wallStart = wall.Position.ToVector2() + wallWidth / 2 * wallDirection;
                     var wallEnd = wallStart - wallWidth * wallDirection;
 
@@ -282,7 +282,7 @@ namespace SebbyLib
             return points;
         }
 
-        private static void Game_OnWndProc(WndEventArgs args)
+        private static void Game_OnWndProc(GameWndProcEventArgs args)
         {
             if (args.Msg == (uint)WindowsMessages.CONTEXTMENU && blockMove)
             {
@@ -290,7 +290,7 @@ namespace SebbyLib
                 blockAttack = false;
                 Orbwalker.AttackState = true;
                 Orbwalker.MovementState = true;
-                Player.IssueOrder(GameObjectOrder.MoveTo, Game.CursorPosRaw);
+                Player.IssueOrder(GameObjectOrder.MoveTo, Game.CursorPos);
             }
         }
 
@@ -348,7 +348,7 @@ namespace SebbyLib
             }
         }
 
-        private static void Player_OnIssueOrder(AIBaseClient sender, PlayerIssueOrderEventArgs args)
+        private static void Player_OnIssueOrder(AIBaseClient sender, AIBaseClientIssueOrderEventArgs args)
         {
             if (!sender.IsMe)
             {
