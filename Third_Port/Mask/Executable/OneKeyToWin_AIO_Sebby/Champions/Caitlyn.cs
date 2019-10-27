@@ -142,7 +142,7 @@ namespace OneKeyToWin_AIO_Sebby.Champions
                     if (EmodeGC == 0)
                         E.Cast(args.EndPosition);
                     else if (EmodeGC == 1)
-                        E.Cast(Game.CursorPosRaw);
+                        E.Cast(Game.CursorPos);
                     else
                         E.Cast(sender.PreviousPosition);
                 }
@@ -334,7 +334,7 @@ namespace OneKeyToWin_AIO_Sebby.Champions
                         var points = OktwCommon.CirclePoints(8, W.Range, Player.Position);
                         foreach (var point in points)
                         {
-                            if (NavMesh.IsWallOfGrass(point, 0) || point.IsUnderEnemyTurret())
+                            if (NavMesh.IsWallOfType(point, CollisionFlags.Wall, 0) || NavMesh.IsWallOfType(point, CollisionFlags.Grass, 0)  || point.IsUnderEnemyTurret())
                             {
                                 if (!OktwCommon.CirclePoints(8, 150, point).Any(x => x.IsWall()))
                                 {
@@ -396,7 +396,7 @@ namespace OneKeyToWin_AIO_Sebby.Champions
 
             if (e.GetValue<MenuKeyBind>("useE").Active)
             {
-                E.Cast(Player.PreviousPosition - (Game.CursorPosRaw - Player.PreviousPosition), true);
+                E.Cast(Player.PreviousPosition - (Game.CursorPos - Player.PreviousPosition), true);
             }
         }
 

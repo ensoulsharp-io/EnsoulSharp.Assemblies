@@ -56,23 +56,23 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="EnsoulSharp.SDK">
-      <HintPath>E:\EnsoulSharp\System\EnsoulSharp.SDK.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\Loader\System\EnsoulSharp.SDK.dll</HintPath>
     </Reference>
     <Reference Include="EnsoulSharp.Wrapper">
-      <HintPath>E:\EnsoulSharp\System\EnsoulSharp.Wrapper.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\Loader\System\EnsoulSharp.Wrapper.dll</HintPath>
     </Reference>
     <Reference Include="SebbyLib">
-      <HintPath>E:\EnsoulSharp\System\SebbyLib.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\Loader\System\SebbyLib.dll</HintPath>
     </Reference>
     <Reference Include="SharpDX">
-      <HintPath>E:\EnsoulSharp\System\SharpDX.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\Loader\System\SharpDX.dll</HintPath>
     </Reference>
     <Reference Include="SharpDX.Direct3D9, Version=2.6.3.0, Culture=neutral, PublicKeyToken=2306ab36a61019a8, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\EnsoulSharp\System\SharpDX.Direct3D9.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\Loader\System\SharpDX.Direct3D9.dll</HintPath>
     </Reference>
     <Reference Include="SPrediction">
-      <HintPath>E:\EnsoulSharp\System\SPrediction.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\Loader\System\SPrediction.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Drawing" />

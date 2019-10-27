@@ -12,13 +12,13 @@ namespace BadaoActionsLimiter
         public static void BadaoActivate()
         {
             Spellbook.OnStopCast += Spellbook_OnStopCast;
-            Player.OnIssueOrder += Obj_AI_Base_OnIssueOrder;
+            AIBaseClient.OnIssueOrder += Obj_AI_Base_OnIssueOrder;
             AIBaseClient.OnProcessSpellCast += Obj_AI_Base_OnProcessSpellCast;
         }
 
-        private static void Spellbook_OnStopCast(AIBaseClient sender, SpellbookStopCastEventArgs args)
+        private static void Spellbook_OnStopCast(Spellbook sender, SpellbookStopCastEventArgs args)
         {
-            if (sender.IsValid && sender.IsMe && args.DestroyMissile && args.KeepAnimationPlaying)
+            if (sender.Owner.IsValid && sender.Owner.IsMe && args.DestroyMissile && args.KeepAnimationPlaying)
             {
                 LastAutoAttack = 0;
             }
@@ -38,7 +38,7 @@ namespace BadaoActionsLimiter
             }
         }
 
-        private static void Obj_AI_Base_OnIssueOrder(AIBaseClient sender, PlayerIssueOrderEventArgs args)
+        private static void Obj_AI_Base_OnIssueOrder(AIBaseClient sender, AIBaseClientIssueOrderEventArgs args)
         {
             if (!sender.IsMe)
                 return;

@@ -58,10 +58,10 @@ namespace OneKeyToWin_AIO_Sebby.Core
                 if (posPred != Vector3.Zero)
                     Orbwalker.SetOrbwalkerPosition(posPred);
                 else
-                    Orbwalker.SetOrbwalkerPosition(Game.CursorPosRaw);
+                    Orbwalker.SetOrbwalkerPosition(Game.CursorPos);
             }
             else
-                Orbwalker.SetOrbwalkerPosition(Game.CursorPosRaw);
+                Orbwalker.SetOrbwalkerPosition(Game.CursorPos);
         }
 
         private void AIBaseClient_OnDoCast(AIBaseClient sender, AIBaseClientProcessSpellCastEventArgs args)
@@ -123,7 +123,7 @@ namespace OneKeyToWin_AIO_Sebby.Core
 
                     if (misToTarget < QWER.Range && misToTarget > 50)
                     {
-                        var cursorToTarget = Target.Distance(Player.Position.Extend(Game.CursorPosRaw, 100));
+                        var cursorToTarget = Target.Distance(Player.Position.Extend(Game.CursorPos, 100));
                         var ext = finishPosition.Extend(Target.PreviousPosition, cursorToTarget + misToTarget);
 
                         if (ext.Distance(Player) < 800 && ext.CountEnemyHeroesInRange(400) < 2)

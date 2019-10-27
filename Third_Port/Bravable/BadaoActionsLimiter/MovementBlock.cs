@@ -11,10 +11,10 @@ namespace BadaoActionsLimiter
         public static void BadaoActivate()
         {
             AIBaseClient.OnProcessSpellCast += Obj_AI_Base_OnProcessSpellCast;
-            Player.OnIssueOrder += Obj_AI_Base_OnIssueOrder;
+            AIBaseClient.OnIssueOrder += Obj_AI_Base_OnIssueOrder;
         }
 
-        private static void Obj_AI_Base_OnIssueOrder(AIBaseClient sender, PlayerIssueOrderEventArgs args)
+        private static void Obj_AI_Base_OnIssueOrder(AIBaseClient sender, AIBaseClientIssueOrderEventArgs args)
         {
             if (!sender.IsMe)
                 return;

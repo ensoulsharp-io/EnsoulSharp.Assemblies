@@ -303,7 +303,7 @@ namespace OneKeyToWin_AIO_Sebby.Champions
             var rjs = Config[Player.CharacterName]["RConfig"]["rjs"];
             if (rjs.GetValue<MenuBool>("Rjungle").Enabled)
             {
-                var mobs = Cache.GetMinions(Player.PreviousPosition, float.MaxValue, MinionTeam.Neutral);
+                var mobs = Cache.GetMinions(Player.PreviousPosition, float.MaxValue, SebbyLib.MinionTeam.Neutral);
                 foreach (var mob in mobs)
                 {
                     if (mob.Health < mob.MaxHealth && mob.CountAllyHeroesInRange(1000) == 0 && mob.DistanceToPlayer() > 1500)

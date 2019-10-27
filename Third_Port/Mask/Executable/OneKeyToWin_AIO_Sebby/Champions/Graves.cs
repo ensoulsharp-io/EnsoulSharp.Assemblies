@@ -230,7 +230,7 @@ namespace OneKeyToWin_AIO_Sebby.Champions
             var farm = Config[Player.CharacterName]["farm"];
             if (LaneClear && Player.ManaPercent > farm.GetValue<MenuSlider>("JCMana").Value)
             {
-                var mobs = Cache.GetMinions(Player.PreviousPosition, 600, MinionTeam.Neutral);
+                var mobs = Cache.GetMinions(Player.PreviousPosition, 600, SebbyLib.MinionTeam.Neutral);
                 if (mobs.Count > 0)
                 {
                     var mob = mobs[0];
@@ -366,8 +366,8 @@ namespace OneKeyToWin_AIO_Sebby.Champions
                     LogicE();
                 if (LaneClear && args.Target != null && Config[Player.CharacterName]["farm"].GetValue<MenuBool>("jungleE").Enabled && Player.ManaPercent > Config[Player.CharacterName]["farm"].GetValue<MenuSlider>("JCMana").Value)
                 {
-                    if (E.IsReady() && Cache.GetMinions(Player.PreviousPosition, 700, MinionTeam.Neutral).Any(x => x.NetworkId == args.Target.NetworkId))
-                        E.Cast(Game.CursorPosRaw);
+                    if (E.IsReady() && Cache.GetMinions(Player.PreviousPosition, 700, SebbyLib.MinionTeam.Neutral).Any(x => x.NetworkId == args.Target.NetworkId))
+                        E.Cast(Game.CursorPos);
                 }
             }
         }

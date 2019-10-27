@@ -27,7 +27,7 @@ namespace BadaoActionsLimiter
             MovementBlock.BadaoActivate();
             CameraControling.BadaoActivate();
             Drawing.OnDraw += Drawing_OnDraw;
-            Chat.Print("Badao Actions Limiter Loaded !");
+            Game.Print("Badao Actions Limiter Loaded !");
         }
 
         private static void Drawing_OnDraw(EventArgs args)

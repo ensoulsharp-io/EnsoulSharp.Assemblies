@@ -47,7 +47,7 @@ namespace OneKeyToWin_AIO_Sebby.Core
                 var gapcloserMode = menu["gap"].GetValue<MenuList>("GapcloserMode").Index;
                 if (gapcloserMode == 0)
                 {
-                    var bestpoint = Player.Position.Extend(Game.CursorPosRaw, DashSpell.Range);
+                    var bestpoint = Player.Position.Extend(Game.CursorPos, DashSpell.Range);
                     if (IsGoodPosition(bestpoint))
                         DashSpell.Cast(bestpoint);
                 }
@@ -83,7 +83,7 @@ namespace OneKeyToWin_AIO_Sebby.Core
 
             if (DashMode == 0)
             {
-                bestpoint = Player.Position.Extend(Game.CursorPosRaw, DashSpell.Range);
+                bestpoint = Player.Position.Extend(Game.CursorPos, DashSpell.Range);
             }
             else if (DashMode == 1)
             {
@@ -114,7 +114,7 @@ namespace OneKeyToWin_AIO_Sebby.Core
             else if (DashMode == 2)
             {
                 var points = OktwCommon.CirclePoints(15, DashSpell.Range, Player.Position);
-                bestpoint = Player.Position.Extend(Game.CursorPosRaw, DashSpell.Range);
+                bestpoint = Player.Position.Extend(Game.CursorPos, DashSpell.Range);
                 var enemies = bestpoint.CountEnemyHeroesInRange(350);
                 foreach (var point in points)
                 {

@@ -14,7 +14,7 @@ namespace Anti_Rito
         private static void OnGameLoad()
         {
             OneTickOneSpell.Init();
-            Chat.Print("Anti-Riot by Live To Rise <3");
+            Game.Print("Anti-Riot by Live To Rise <3");
         }
     }
 }

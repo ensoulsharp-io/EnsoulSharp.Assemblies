@@ -195,8 +195,8 @@ namespace OneKeyToWin_AIO_Sebby
 
             if (about.GetValue<MenuBool>("print").Enabled)
             {
-                Chat.Print("<font size='30'>OneKeyToWin</font> <font color='#b756c5'>by Sebby</font>");
-                Chat.Print("<font color='#b756c5'>OKTW NEWS: </font>" + OktwNews);
+                Game.Print("<font size='30'>OneKeyToWin</font> <font color='#b756c5'>by Sebby</font>");
+                Game.Print("<font color='#b756c5'>OKTW NEWS: </font>" + OktwNews);
             }
         }
 
@@ -289,7 +289,7 @@ namespace OneKeyToWin_AIO_Sebby
                 tickIndex = 0;
         }
 
-        private static void Game_OnWndProc(WndEventArgs args)
+        private static void Game_OnWndProc(GameWndProcEventArgs args)
         {
             var idx = Config["farm"]["spellfarm"].GetValue<MenuList>("spellFarmMode").Index;
 
@@ -596,7 +596,7 @@ namespace OneKeyToWin_AIO_Sebby
             }
             if (Config["about"].GetValue<MenuBool>("debugChat").Enabled)
             {
-                Chat.Print(msg);
+                Game.Print(msg);
             }
         }
 
