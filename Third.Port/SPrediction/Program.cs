@@ -34,6 +34,7 @@ namespace SPrediction
             {
                 var sPred = new Prediction();
                 EnsoulSharp.SDK.Prediction.AddPrediction("SPrediction", sPred);
+                EnsoulSharp.SDK.Prediction.SetPrediction("SPrediction");
             };
         }
 
