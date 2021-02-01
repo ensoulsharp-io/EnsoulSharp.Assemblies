@@ -407,7 +407,7 @@ namespace OneKeyToWin_AIO_Sebby.Champions
 
                 if (mobs.Count > 0)
                 {
-                    var mob = mobs[0];
+                    var mob = mobs.First();
 
                     if (jungleQ.Enabled && Q.IsReady())
                     {

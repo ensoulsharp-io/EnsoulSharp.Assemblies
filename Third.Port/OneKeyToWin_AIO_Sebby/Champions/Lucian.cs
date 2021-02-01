@@ -466,7 +466,7 @@ namespace OneKeyToWin_AIO_Sebby.Champions
 
                 if (mobs.Count > 0)
                 {
-                    var mob = mobs[0];
+                    var mob = mobs.First();
 
                     if (Q.IsReady())
                     {
@@ -507,7 +507,7 @@ namespace OneKeyToWin_AIO_Sebby.Champions
 
                     if (W.IsReady() && farmW.Enabled)
                     {
-                        var minions = GameObjects.GetMinions(W.Range);
+                        var minions = GameObjects.GetMinions(W.Range).ToList();
                         var wFarm = W.GetCircularFarmLocation(minions, 150);
 
                         if (wFarm.MinionsHit > 3)
